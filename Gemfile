@@ -51,4 +51,5 @@ gem "factory_bot_rails"
 
 # Faker
 gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
-
+# Mysql
+gem 'mysql2'
