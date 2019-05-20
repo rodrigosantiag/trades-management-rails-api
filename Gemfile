@@ -53,3 +53,10 @@ gem "factory_bot_rails"
 gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
 # Mysql
 gem 'mysql2'
+
+# Devise
+gem 'devise'
+
+# Devise Token Auth
+gem 'omniauth'
+gem 'devise_token_auth'
