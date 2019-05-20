@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  subject {build(:user)}
+  let(:user) {build(:user)}
 
-  it {expect(subject).to respond_to(:email)}
-  it {expect(subject).to respond_to(:name)}
-  it {expect(subject).to respond_to(:risk)}
-  it {expect(subject).to respond_to(:password)}
-  it {expect(subject).to respond_to(:password_confirmation)}
-  it {expect(subject).to be_valid}
+  it {is_expected.to validate_presence_of(:name)}
+  it {is_expected.to validate_presence_of(:email)}
+  it {expect(create(:user)).to validate_uniqueness_of(:email).case_insensitive.scoped_to(:provider)}
+  it {is_expected.to validate_confirmation_of(:password)}
+  it {is_expected.to allow_value('rodrigosantiag@gmail.com').for(:email)}
+
 end
