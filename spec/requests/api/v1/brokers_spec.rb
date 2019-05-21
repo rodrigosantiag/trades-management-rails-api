@@ -104,7 +104,43 @@ RSpec.describe 'Broker API', type: :request do
     end
   end
 
-  describe 'PUT /brokers' do
-    pending
+  describe 'PUT /brokers/:id' do
+    let!(:broker) {create(:broker, user_id: user.id)}
+
+    before do
+      put "/brokers/#{broker.id}", params: {broker: broker_params}.to_json, headers: headers
+    end
+
+    context 'when params are valid' do
+      let(:broker_params) {{name: 'New Broker Name'}}
+
+      it 'should return status code 200' do
+        expect(response).to have_http_status(200)
+      end
+
+      it 'should save broker updated on database' do
+        expect(Broker.find_by(name: broker_params[:name])).not_to be_nil
+      end
+
+      it 'should return updated broker' do
+        expect(json_body[:data][:attributes][:name]).to eq(broker_params[:name])
+      end
+    end
+
+    context 'when params are not valid' do
+      let!(:broker_params) {{name: ' '}}
+
+      it 'should return status code 422' do
+        expect(response).to have_http_status(422)
+      end
+
+      it 'should not save invalid broker in database' do
+        expect(Broker.find_by(name: broker_params[:name])).to be_nil
+      end
+
+      it 'should return :name key in errors' do
+        expect(json_body[:errors]).to have_key(:name)
+      end
+    end
   end
 end
