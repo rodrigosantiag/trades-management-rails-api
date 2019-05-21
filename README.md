@@ -21,4 +21,6 @@ Things you may want to cover:
 
 * Deployment instructions
 
-* ...
+* Mailcatcher for development
+
+Simply run gem install mailcatcher then mailcatcher to get started.
