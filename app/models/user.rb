@@ -6,5 +6,7 @@ class User < ApplicationRecord
          :confirmable
   include DeviseTokenAuth::Concerns::User
 
+  has_many :brokers, dependent: :destroy
+
   validates_presence_of :name
 end
