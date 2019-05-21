@@ -1,0 +1,65 @@
+require 'rails_helper'
+
+RSpec.describe 'Broker API', type: :request do
+  before {host! 'api.binaryoptionsmanagement.local'}
+  let!(:user) {create(:user)}
+  let!(:auth_data) {user.create_new_auth_token}
+  let(:headers) do
+    {
+        'Accept' => 'application/vnd.binaryoptionsmanagement.v1',
+        'Content-Type' => Mime[:json].to_s,
+        'access-token' => auth_data['access-token'],
+        'uid' => auth_data['uid'],
+        'client' => auth_data['client']
+    }
+  end
+
+  describe 'GET /brokers' do
+
+    context 'random list. Checking responses' do
+      before do
+        create_list(:broker, 3, user_id: user.id)
+        get '/brokers', params: {}, headers: headers
+      end
+
+      it 'should return status code 200' do
+        expect(response).to have_http_status(200)
+      end
+
+      it 'should return list of brokers from database' do
+        expect(json_body[:data].count).to eq(3)
+      end
+    end
+
+    context 'return in alphabetical order' do
+      let!(:broker1) {create(:broker, name: 'IQ Option', user_id: user.id)}
+      let!(:broker2) {create(:broker, name: 'Binary.com', user_id: user.id)}
+      let!(:broker3) {create(:broker, name: 'Binomo Torneios', user_id: user.id)}
+
+      before do
+        get '/brokers', params: {}, headers: headers
+      end
+
+      it 'should return ordered by name' do
+        returned_brokers = json_body[:data].map {|t| t[:attributes][:name]}
+
+        expect(returned_brokers).to eq([broker2.name, broker3.name, broker1.name])
+      end
+    end
+  end
+
+  describe 'GET /brokers/:id' do
+    let(:broker) {create(:broker, user_id: user.id)}
+
+    before {get "/brokers/#{broker.id}", params: {}, headers: headers}
+
+    it 'should return status code 200' do
+      expect(response).to have_http_status(200)
+    end
+
+    it 'should return broker data' do
+      expect(json_body[:data][:attributes][:name]).to eq(broker.name)
+    end
+  end
+
+end
