@@ -62,4 +62,29 @@ RSpec.describe 'Broker API', type: :request do
     end
   end
 
+  describe 'POST /brokers' do
+    before do
+      post '/brokers', params: {broker: broker_params}.to_json, headers: headers
+    end
+
+    context 'when params are valid' do
+      let(:broker_params) {attributes_for(:broker)}
+
+      it 'should return status code 201' do
+        expect(response).to have_http_status(201)
+      end
+
+      it 'should save the broker in database' do
+        expect(Broker.find_by(name: broker_params[:name])).not_to be_nil
+      end
+
+      it 'should return the broker data' do
+        expect(json_body[:data][:attributes][:name]).to eq(broker_params[:name])
+      end
+
+      it 'should assign the broker to the user' do
+        expect(json_body[:data][:attributes][:'user-id']).to eq(user.id)
+      end
+    end
+  end
 end
