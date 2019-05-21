@@ -128,7 +128,7 @@ RSpec.describe 'Broker API', type: :request do
     end
 
     context 'when params are not valid' do
-      let!(:broker_params) {{name: ' '}}
+      let(:broker_params) {{name: ' '}}
 
       it 'should return status code 422' do
         expect(response).to have_http_status(422)
@@ -142,5 +142,22 @@ RSpec.describe 'Broker API', type: :request do
         expect(json_body[:errors]).to have_key(:name)
       end
     end
+  end
+
+  describe 'DELETE /brokers/:id' do
+    let!(:broker) {create(:broker, user_id: user.id)}
+
+    before do
+      delete "/brokers/#{broker.id}", params: {}, headers: headers
+    end
+
+    it 'should return status code 204' do
+      expect(response).to have_http_status(204)
+    end
+
+    it 'should remove broker from database' do
+      expect {Broker.find(broker.id)}.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
   end
 end

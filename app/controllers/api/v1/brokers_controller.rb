@@ -34,6 +34,14 @@ class Api::V1::BrokersController < ApplicationController
     end
   end
 
+  def destroy
+    broker = current_user.brokers.find(params[:id])
+
+    broker.destroy
+
+    head 204
+  end
+
   private
 
   def broker_params
