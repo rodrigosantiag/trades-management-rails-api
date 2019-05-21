@@ -17,9 +17,11 @@ class Api::V1::BrokersController < ApplicationController
   def create
     broker = current_user.brokers.build(broker_params)
 
-    broker.save
-
-    render json: broker, status: 201
+    if broker.save
+      render json: broker, status: 201
+    else
+      render json: {errors: broker.errors}, status: 422
+    end
   end
 
   private

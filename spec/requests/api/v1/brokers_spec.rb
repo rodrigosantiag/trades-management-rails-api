@@ -86,5 +86,25 @@ RSpec.describe 'Broker API', type: :request do
         expect(json_body[:data][:attributes][:'user-id']).to eq(user.id)
       end
     end
+
+    context 'when params are not valid' do
+      let(:broker_params) {attributes_for(:broker, name: ' ')}
+
+      it 'should return status code 422' do
+        expect(response).to have_http_status(422)
+      end
+
+      it 'should does not sabe broker in database' do
+        expect(Broker.find_by(name: broker_params[:name])).to be_nil
+      end
+
+      it 'should return error key for name' do
+        expect(json_body[:errors]).to have_key(:name)
+      end
+    end
+  end
+
+  describe 'PUT /brokers' do
+    pending
   end
 end
