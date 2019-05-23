@@ -63,3 +63,6 @@ gem 'devise_token_auth'
 
 # Active Model Serializer for JSON API pattern
 gem 'active_model_serializers', '~> 0.10.0'
+
+# CORS
+gem 'rack-cors'
