@@ -1,3 +1,4 @@
+image: ruby
 build site:
   script:
     - ls -ltra
