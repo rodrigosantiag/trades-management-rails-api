@@ -3,4 +3,4 @@ build site:
     - ls -ltra
     - pwd
     - whoami
-    - npm --version
+    - bundle install
