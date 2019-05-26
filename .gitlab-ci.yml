@@ -4,5 +4,5 @@ build site:
     - ls -ltra
     - pwd
     - whoami
-    - bundle update listen
+    - gem install bundler:2.0.1
     - bundle install
