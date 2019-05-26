@@ -3,4 +3,5 @@ build site:
     - ls -ltra
     - pwd
     - whoami
+    - bundle update listen
     - bundle install
