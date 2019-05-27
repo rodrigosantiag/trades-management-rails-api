@@ -2,8 +2,11 @@ build application:
   stage:
     build
   artifacts:
+    name: "#CI_JOB_NAME-$CI_COMMIT_REF_NAME"
+    when: always
+    expire_in: 2 hrs
     paths:
-      - ./
+      - ./app
   script:
     - apt-get update -qq && apt-get install -y -qq sqlite3 libsqlite3-dev nodejs
     - ruby -v
