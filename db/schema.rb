@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190521072908) do
+ActiveRecord::Schema.define(version: 20190601215610) do
+
+  create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "type",            limit: 1
+    t.string   "currency",        limit: 3
+    t.float    "initial_balance", limit: 24
+    t.float    "current_balance", limit: 24
+    t.integer  "broker_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.index ["broker_id"], name: "index_accounts_on_broker_id", using: :btree
+  end
 
   create_table "brokers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -44,5 +55,6 @@ ActiveRecord::Schema.define(version: 20190521072908) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
   end
 
+  add_foreign_key "accounts", "brokers"
   add_foreign_key "brokers", "users"
 end
