@@ -1,0 +1,8 @@
+test:
+  adapter: mysql2
+  encoding: utf8
+  pool: 5
+  host: mysql
+  username: root
+  password: knopix
+  database: binary-financial-system_test

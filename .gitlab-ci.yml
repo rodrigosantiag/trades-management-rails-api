@@ -1,9 +1,5 @@
-image: ubuntu:18.04
-
 services:
   - mysql:5.7
-  - ruby:2.6
-
 variables:
   MYSQL_ROOT_PASSWORD: "knopix"
 
@@ -11,9 +7,9 @@ before_script:
   - ruby -v
   - mysql --version
   - which ruby
-  - which mysql
   - gem install bundler --no-document
   - bundle install --jobs $(nproc)  "${FLAGS[@]}"
+  - cp config/database.yml.gitlab config/database.yml
   - RAILS_ENV=test bundle exec rake db:create db:schema:load
 
 rspec:
