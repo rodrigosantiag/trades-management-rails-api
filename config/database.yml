@@ -17,6 +17,7 @@ default: &default
   password: knopix
 #  socket: /var/run/mysqld/mysqld.sock
 
+
 development:
   <<: *default
   database: binary-financial-system_development
