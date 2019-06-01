@@ -4,7 +4,7 @@ variables:
   MYSQL_ROOT_PASSWORD: "knopix"
 
 before_script:
-  - sudo apt-get install -y mysql-server mysql-client libmysqlclient-dev
+  - apt-get install -y mysql-server mysql-client libmysqlclient-dev
   - ruby -v
   - which ruby
   - gem install bundler --no-document
