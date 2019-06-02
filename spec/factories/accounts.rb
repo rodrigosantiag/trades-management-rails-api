@@ -1,9 +1,12 @@
 FactoryBot.define do
   factory :account do
-    type { "" }
-    currency { "MyString" }
-    initial_balance { 1.5 }
-    current_balance { 1.5 }
-    broker { nil }
+    type {
+      chars = ['D', 'R']
+      chars.shuffle[0]
+    }
+    currency { Faker::Currency.code }
+    initial_balance { Faker::Number.decimal }
+    current_balance { Faker::Number.decimal }
+    broker
   end
 end
