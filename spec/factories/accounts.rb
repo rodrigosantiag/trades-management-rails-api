@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :account do
-    type {
+    type_account {
       chars = ['D', 'R']
       chars.shuffle[0]
     }

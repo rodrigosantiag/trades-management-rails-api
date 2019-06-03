@@ -66,3 +66,6 @@ gem 'active_model_serializers', '~> 0.10.0'
 
 # CORS
 gem 'rack-cors'
+
+# Ransack
+gem 'ransack', github: 'activerecord-hackery/ransack'

@@ -1,4 +1,17 @@
 GIT
+  remote: https://github.com/activerecord-hackery/ransack.git
+  revision: 6e6e610dcea3a5f8a724c933184bfab1420850d5
+  specs:
+    polyamorous (2.1.1)
+      activerecord (>= 5.0)
+    ransack (2.1.1)
+      actionpack (>= 5.0)
+      activerecord (>= 5.0)
+      activesupport (>= 5.0)
+      i18n
+      polyamorous (= 2.1.1)
+
+GIT
   remote: https://github.com/stympy/faker.git
   revision: 14617c4ef7b89998e98e833ad5d11760e03d9bad
   branch: master
@@ -226,6 +239,7 @@ DEPENDENCIES
   rack-cors
   rails (~> 5.0.7, >= 5.0.7.2)
   rails-controller-testing
+  ransack!
   rspec-rails (~> 3.8)
   shoulda-matchers
   spring

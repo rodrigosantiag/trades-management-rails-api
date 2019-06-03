@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     namespace :v1, path: '/', constraints: ApiVersionConstraint.new(version: 1, default: true) do
       mount_devise_token_auth_for 'User', at: 'auth'
       resources :brokers, only: [:index, :show, :create, :update, :destroy]
+      resources :accounts, only: [:index]
     end
   end
 end

@@ -10,10 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190601215610) do
+ActiveRecord::Schema.define(version: 20190602184136) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "type",            limit: 1
+    t.string   "type_account",    limit: 1
     t.string   "currency",        limit: 3
     t.float    "initial_balance", limit: 24
     t.float    "current_balance", limit: 24
