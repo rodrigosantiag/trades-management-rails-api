@@ -4,7 +4,7 @@ class Api::V1::AccountsController < ApplicationController
   # TODO: check security of this trying to access an account of another user
 
   def index
-    accounts = Account.ransack(params[:q]).result
+    accounts = current_user.accounts.ransack(params[:q]).result
 
     render json: accounts, status: 200
   end

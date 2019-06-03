@@ -19,7 +19,7 @@ RSpec.describe 'Account API', type: :request do
 
     context 'when params are not passed' do
       before do
-        create_list(:account, 2, broker_id: broker.id)
+        create_list(:account, 2, broker_id: broker.id, user_id: user.id)
         get '/accounts', params: {}, headers: headers
       end
 
@@ -35,11 +35,11 @@ RSpec.describe 'Account API', type: :request do
 
 
     context 'when params are passed' do
-      let!(:account_1) {create(:account, broker_id: broker.id)}
-      let!(:account_2) {create(:account, broker_id: broker.id)}
+      let!(:account_1) {create(:account, broker_id: broker.id, user_id: user.id)}
+      let!(:account_2) {create(:account, broker_id: broker.id, user_id: user.id)}
       let!(:broker2) {create(:broker, user_id: user.id)}
-      let!(:account_3) {create(:account, broker_id: broker2.id)}
-      let!(:account_4) {create(:account, broker_id: broker2.id)}
+      let!(:account_3) {create(:account, broker_id: broker2.id, user_id: user.id)}
+      let!(:account_4) {create(:account, broker_id: broker2.id, user_id: user.id)}
       before do
         get "/accounts?q[broker_id_eq]=#{broker.id}", params: {}, headers: headers
       end
@@ -50,7 +50,5 @@ RSpec.describe 'Account API', type: :request do
         expect(accounts).to eq([account_1.broker_id, account_2.broker_id])
       end
     end
-
-
   end
 end

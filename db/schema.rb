@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190602184136) do
+ActiveRecord::Schema.define(version: 20190603165838) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "type_account",    limit: 1
@@ -20,7 +20,9 @@ ActiveRecord::Schema.define(version: 20190602184136) do
     t.integer  "broker_id"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+    t.integer  "user_id"
     t.index ["broker_id"], name: "index_accounts_on_broker_id", using: :btree
+    t.index ["user_id"], name: "index_accounts_on_user_id", using: :btree
   end
 
   create_table "brokers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -56,5 +58,6 @@ ActiveRecord::Schema.define(version: 20190602184136) do
   end
 
   add_foreign_key "accounts", "brokers"
+  add_foreign_key "accounts", "users"
   add_foreign_key "brokers", "users"
 end
