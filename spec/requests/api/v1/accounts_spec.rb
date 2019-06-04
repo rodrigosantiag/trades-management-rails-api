@@ -28,7 +28,6 @@ RSpec.describe 'Account API', type: :request do
       end
 
       it 'should return a list of broker accounts from database' do
-        # accounts = json_body[:data].map {|account| account[:relationships][:accounts][:data]}
         expect(json_body[:data].count).to eq(2)
       end
     end
@@ -153,5 +152,22 @@ RSpec.describe 'Account API', type: :request do
         expect(account_updated.currency).not_to eq(account_params[:currency])
       end
     end
+  end
+
+  describe 'DELETE /accounts/:id' do
+    let(:account) {create(:account, user_id: user.id, broker_id: broker.id)}
+
+    before do
+      delete "/accounts/#{account.id}", params: {}, headers: headers
+    end
+
+    it 'should return status 204' do
+      expect(response).to have_http_status(204)
+    end
+
+    it 'should delete account from database' do
+      expect{Account.find(account.id)}.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
   end
 end

@@ -33,6 +33,13 @@ class Api::V1::AccountsController < ApplicationController
     end
   end
 
+  def destroy
+    account = current_user.accounts.find(params[:id])
+
+    account.destroy
+    head 204
+  end
+
   private
 
   def account_params
