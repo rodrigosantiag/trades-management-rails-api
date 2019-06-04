@@ -10,7 +10,7 @@ class Api::V1::AccountsController < ApplicationController
   def show
     account = current_user.accounts.find(params[:id])
 
-    render json: account, status: 200
+    render json: account, include: 'broker', status: 200
   end
 
   def create
