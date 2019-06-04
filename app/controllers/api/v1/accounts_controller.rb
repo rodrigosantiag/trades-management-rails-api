@@ -17,6 +17,16 @@ class Api::V1::AccountsController < ApplicationController
     end
   end
 
+  def update
+    account = current_user.accounts.find(params[:id])
+
+    if account.update_attributes(account_params)
+      render json: account, status: 200
+    else
+      render json: {errors: account.errors}, status: 422
+    end
+  end
+
   private
 
   def account_params

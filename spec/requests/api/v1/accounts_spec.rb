@@ -97,4 +97,45 @@ RSpec.describe 'Account API', type: :request do
       end
     end
   end
+
+  describe 'PUT /accounts/:id' do
+    let!(:account) {create(:account, user_id: user.id, broker_id: broker.id)}
+
+    before do
+      put "/accounts/#{account.id}", params: {account: account_params}.to_json, headers: headers
+    end
+
+    context 'when params are valid' do
+      let(:account_params) {{currency: 'BRL'}}
+      it 'should return status code 200' do
+        expect(response).to have_http_status(200)
+      end
+
+      it 'should should return updated account data' do
+        expect(json_body[:data][:attributes][:currency]).not_to be_nil
+      end
+
+      it 'should save updated account to database' do
+        saved_account = Account.find(account.id)
+        expect(saved_account.currency).to eq(account_params[:currency])
+      end
+    end
+
+    context 'when params are invalid' do
+      let(:account_params) {{currency: ' '}}
+
+      it 'should return status code 422' do
+        expect(response).to have_http_status(422)
+      end
+
+      it 'should return errors' do
+        expect(json_body).to have_key(:errors)
+      end
+
+      it 'should not save the update on database' do
+        account_updated = Account.find(account.id)
+        expect(account_updated.currency).not_to eq(account_params[:currency])
+      end
+    end
+  end
 end
