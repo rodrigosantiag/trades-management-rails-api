@@ -7,6 +7,12 @@ class Api::V1::AccountsController < ApplicationController
     render json: accounts, status: 200
   end
 
+  def show
+    account = current_user.accounts.find(params[:id])
+
+    render json: account, status: 200
+  end
+
   def create
     account = current_user.accounts.build(account_params)
 

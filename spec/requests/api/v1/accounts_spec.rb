@@ -52,6 +52,22 @@ RSpec.describe 'Account API', type: :request do
     end
   end
 
+  describe 'GET /accounts/:id' do
+    let(:account) {create(:account, user_id: user.id, broker_id: broker.id)}
+
+    before do
+      get "/accounts/#{account.id}", params: {}, headers: headers
+    end
+
+    it 'should return status code 200' do
+      expect(response).to have_http_status(200)
+    end
+
+    it 'should return data for account' do
+      expect(json_body[:data][:attributes][:currency]).to eq(account.currency)
+    end
+  end
+
   describe 'POST /accounts' do
     before do
       post '/accounts', params: {account: account_params}.to_json, headers: headers
