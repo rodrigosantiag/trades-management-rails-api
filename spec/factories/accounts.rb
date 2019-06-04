@@ -8,5 +8,6 @@ FactoryBot.define do
     initial_balance { Faker::Number.decimal }
     current_balance { Faker::Number.decimal }
     broker
+    user
   end
 end

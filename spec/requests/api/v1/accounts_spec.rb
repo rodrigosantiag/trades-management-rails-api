@@ -51,4 +51,50 @@ RSpec.describe 'Account API', type: :request do
       end
     end
   end
+
+  describe 'POST /accounts' do
+    before do
+      post '/accounts', params: {account: account_params}.to_json, headers: headers
+    end
+
+    context 'when params are valid' do
+      let(:account_params) {attributes_for(:account, broker_id: broker.id)}
+
+      it 'should return status code 201' do
+        expect(response).to have_http_status(201)
+      end
+
+      it 'should save new account on database' do
+        expect(Account.find_by(type_account: account_params[:type_account])).not_to be_nil
+      end
+
+      it 'should return data for the new account' do
+        expect(json_body[:data][:attributes][:'type-account']).to eq(account_params[:type_account])
+      end
+
+      it 'should associate account to broker' do
+        expect(json_body[:data][:attributes][:'broker-id']).to eq(broker.id)
+      end
+
+      it 'should associate account to user' do
+        expect(json_body[:data][:attributes][:'user-id']).to eq(user.id)
+      end
+    end
+
+    context 'when params are invalid' do
+      let(:account_params) {attributes_for(:account, currency: nil)}
+
+      it 'should return status 422' do
+        expect(response).to have_http_status(422)
+      end
+
+      it 'should return errors' do
+        expect(json_body).to have_key(:errors)
+      end
+
+      it 'should not save account on database' do
+        expect(Account.find_by(type_account: account_params[:type_account])).to be_nil
+      end
+    end
+  end
 end
