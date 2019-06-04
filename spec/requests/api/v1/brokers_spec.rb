@@ -94,7 +94,7 @@ RSpec.describe 'Broker API', type: :request do
         expect(response).to have_http_status(422)
       end
 
-      it 'should does not sabe broker in database' do
+      it 'should not save broker in database' do
         expect(Broker.find_by(name: broker_params[:name])).to be_nil
       end
 

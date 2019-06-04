@@ -7,6 +7,7 @@ class User < ApplicationRecord
   include DeviseTokenAuth::Concerns::User
 
   has_many :brokers, dependent: :destroy
+  has_many :accounts, dependent: :destroy
 
   validates_presence_of :name
 end

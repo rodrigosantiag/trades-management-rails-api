@@ -11,7 +11,7 @@ class Api::V1::BrokersController < ApplicationController
   def show
     broker = current_user.brokers.find(params[:id])
 
-    render json: broker, status: 200
+    render json: broker, include: 'accounts', status: 200
   end
 
   def create
