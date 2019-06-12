@@ -1,15 +1,18 @@
 FactoryBot.define do
   factory :trade do
-    transient do
-      value_var { Faker::Number.decimal(2) }
-      profit_var { Faker::Number.between(1, 100) }
-    end
-
-    value { value_var }
-    profit { profit_var }
+    value { Faker::Number.decimal(2) }
+    profit { Faker::Number.between(80, 100) }
     result { Faker::Boolean.boolean }
-    result_balance { value_var * profit_var }
+    result_balance { nil }
     account
     user
+
+    after(:build) do |trade|
+      if trade.result?
+        trade.result_balance = trade.value * trade.profit / 100
+      else
+        trade.result_balance = -trade.value * trade.profit / 100
+      end
+    end
   end
 end

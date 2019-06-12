@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190603165838) do
+ActiveRecord::Schema.define(version: 20190612082221) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "type_account",    limit: 1
@@ -31,6 +31,19 @@ ActiveRecord::Schema.define(version: 20190603165838) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_brokers_on_user_id", using: :btree
+  end
+
+  create_table "trades", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.float    "value",          limit: 24
+    t.float    "profit",         limit: 24
+    t.boolean  "result"
+    t.float    "result_balance", limit: 24
+    t.integer  "account_id"
+    t.integer  "user_id"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.index ["account_id"], name: "index_trades_on_account_id", using: :btree
+    t.index ["user_id"], name: "index_trades_on_user_id", using: :btree
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -60,4 +73,6 @@ ActiveRecord::Schema.define(version: 20190603165838) do
   add_foreign_key "accounts", "brokers"
   add_foreign_key "accounts", "users"
   add_foreign_key "brokers", "users"
+  add_foreign_key "trades", "accounts"
+  add_foreign_key "trades", "users"
 end
