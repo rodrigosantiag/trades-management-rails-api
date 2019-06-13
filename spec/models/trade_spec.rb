@@ -8,8 +8,9 @@ RSpec.describe Trade, type: :model do
 
   it {is_expected.to validate_presence_of(:value)}
   it {is_expected.to validate_presence_of(:profit)}
-  it {is_expected.to validate_presence_of(:result)}
   it {is_expected.to validate_presence_of(:result_balance)}
+
+  it {is_expected.to validate_inclusion_of(:result).in_array([true, false])}
 
   it {is_expected.to respond_to(:value)}
   it {is_expected.to respond_to(:profit)}
