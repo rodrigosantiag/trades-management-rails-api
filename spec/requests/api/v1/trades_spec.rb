@@ -69,12 +69,31 @@ RSpec.describe 'Trade API', type: :request do
         expect(json_body[:data][:attributes][:'trade-value']).to eq(trade_params[:trade_value].to_f)
       end
 
-      it 'should associate with acocunt' do
+      it 'should associate with account' do
         expect(json_body[:data][:attributes][:'account-id']).to eq(trade_params[:account_id])
       end
 
       it 'should associate with user' do
         expect(json_body[:data][:attributes][:'user-id']).to eq(user.id)
+      end
+    end
+
+    context 'when params are invalid' do
+      let(:trade_params) {attributes_for(:trade, profit: nil, account_id: account.id)}
+      before do
+        post '/trades', params: {trade: trade_params}.to_json, headers: headers
+      end
+
+      it 'should return status code 401' do
+        expect(response).to have_http_status(422)
+      end
+
+      it 'should return errors' do
+        expect(json_body).to have_key(:errors)
+      end
+
+      it 'should not save trade on database' do
+        expect{Trade.find_by!(profit: trade_params[:profit])}.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
   end
