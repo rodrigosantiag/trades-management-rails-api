@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190612082221) do
+ActiveRecord::Schema.define(version: 20190614081611) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "type_account",    limit: 1
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 20190612082221) do
   end
 
   create_table "trades", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.float    "value",          limit: 24
+    t.float    "trade_value",    limit: 24
     t.float    "profit",         limit: 24
     t.boolean  "result"
     t.float    "result_balance", limit: 24

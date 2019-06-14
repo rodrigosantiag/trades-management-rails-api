@@ -48,6 +48,34 @@ RSpec.describe 'Trade API', type: :request do
         expect(trades).to eq([trade1.account_id, trade3.account_id])
       end
     end
+  end
 
+  describe 'POTS /accounts' do
+    context 'when params are valid' do
+      let(:trade_params) {attributes_for(:trade, account_id: account.id)}
+      before do
+        post '/trades', params: {trade: trade_params}.to_json, headers: headers
+      end
+
+      it 'should return status code 201' do
+        expect(response).to have_http_status(201)
+      end
+
+      it 'should save trade on database' do
+        expect(Trade.find_by(profit: trade_params[:profit])).not_to be_nil
+      end
+
+      it 'should should return trade data' do
+        expect(json_body[:data][:attributes][:'trade-value']).to eq(trade_params[:trade_value].to_f)
+      end
+
+      it 'should associate with acocunt' do
+        expect(json_body[:data][:attributes][:'account-id']).to eq(trade_params[:account_id])
+      end
+
+      it 'should associate with user' do
+        expect(json_body[:data][:attributes][:'user-id']).to eq(user.id)
+      end
+    end
   end
 end
