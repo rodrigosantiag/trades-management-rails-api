@@ -62,11 +62,11 @@ RSpec.describe 'Trade API', type: :request do
       end
 
       it 'should save trade on database' do
-        expect(Trade.find_by(profit: trade_params[:profit])).not_to be_nil
+        expect(Trade.find_by(value: trade_params[:value])).not_to be_nil
       end
 
       it 'should should return trade data' do
-        expect(json_body[:data][:attributes][:'trade-value']).to eq(trade_params[:trade_value].to_f)
+        expect(json_body[:data][:attributes][:'value']).to eq(trade_params[:value])
       end
 
       it 'should associate with account' do
@@ -84,7 +84,7 @@ RSpec.describe 'Trade API', type: :request do
         post '/trades', params: {trade: trade_params}.to_json, headers: headers
       end
 
-      it 'should return status code 401' do
+      it 'should return status code 422' do
         expect(response).to have_http_status(422)
       end
 
