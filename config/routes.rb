@@ -9,7 +9,7 @@ Rails.application.routes.draw do
       mount_devise_token_auth_for 'User', at: 'auth'
       resources :brokers, only: [:index, :show, :create, :update, :destroy]
       resources :accounts, only: [:index, :show, :create, :update, :destroy]
-      resources :trades, only: [:index, :create, :update, :destroy]
+      resources :trades, only: [:index, :create, :update, :destroy, :show]
     end
   end
 end

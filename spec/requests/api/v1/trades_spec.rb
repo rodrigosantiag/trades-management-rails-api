@@ -50,6 +50,22 @@ RSpec.describe 'Trade API', type: :request do
     end
   end
 
+  describe 'GET /trades/:id' do
+    let(:trade) {create(:trade, account_id: account.id, user_id: user.id)}
+
+    before do
+      get "/trades/#{trade.id}", params: {}, headers: headers
+    end
+
+    it 'should return status code 200' do
+      expect(response).to have_http_status(200)
+    end
+
+    it 'should return trade data' do
+      expect(json_body[:data][:attributes][:value]).to eq(trade.value.to_s)
+    end
+  end
+
   describe 'POTS /accounts' do
     context 'when params are valid' do
       let(:trade_params) {attributes_for(:trade, account_id: account.id)}

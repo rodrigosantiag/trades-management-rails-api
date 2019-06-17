@@ -7,6 +7,12 @@ class Api::V1::TradesController < ApplicationController
     render json: trades, status: 200
   end
 
+  def show
+    trade = Trade.find(params[:id])
+
+    render json: trade, status: 200
+  end
+
   def create
     trade = current_user.trades.build(trade_params)
 

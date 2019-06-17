@@ -8,7 +8,7 @@ class TradeSerializer < ActiveModel::Serializer
     if object.result?
       object.value * object.profit / 100
     else
-      -object.value * object.profit / 100
+      -object.value
     end
   end
 end
