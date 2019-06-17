@@ -17,6 +17,23 @@ class Api::V1::TradesController < ApplicationController
     end
   end
 
+  def update
+    trade = current_user.trades.find(params[:id])
+
+    if trade.update_attributes(trade_params)
+      render json: trade, status: 200
+    else
+      render json: {errors: trade.errors}, status: 422
+    end
+  end
+
+  def destroy
+    trade = current_user.trades.find(params[:id])
+
+    trade.destroy
+    head 204
+  end
+
   private
 
   def trade_params

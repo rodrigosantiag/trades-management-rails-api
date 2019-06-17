@@ -97,4 +97,61 @@ RSpec.describe 'Trade API', type: :request do
       end
     end
   end
+
+  describe 'PUT /trades/:id' do
+    let!(:trade) {create(:trade, account_id: account.id, user_id: user.id)}
+    before do
+      put "/trades/#{trade.id}", params: {trade: trade_params}.to_json, headers: headers
+    end
+
+    context 'when params are valid' do
+      let(:trade_params) {{profit: 87}}
+
+      it 'should return status code 200' do
+        expect(response).to have_http_status(200)
+      end
+
+      it 'should return updated trade data' do
+        expect(json_body[:data][:attributes][:value]).not_to be_nil
+      end
+
+      it 'should save updated data on database' do
+        saved_trade = Trade.find(trade.id)
+        expect(saved_trade.profit).to eq(trade_params[:profit])
+      end
+    end
+
+    context 'when params are invalid' do
+      let(:trade_params) {{value: ' '}}
+
+      it 'should return status code 422' do
+        expect(response).to have_http_status(422)
+      end
+
+      it 'should return erros' do
+        expect(json_body).to have_key(:errors)
+      end
+
+      it 'should not save updates on database' do
+        not_updated_trade = Trade.find(trade.id)
+        expect(not_updated_trade.value).not_to eq(trade_params[:value])
+      end
+    end
+  end
+
+  describe 'DELETE /trades/:id' do
+    let(:trade) {create(:trade, account_id: account.id, user_id: user.id)}
+
+    before do
+      delete "/trades/#{trade.id}", params: {}, headers: headers
+    end
+
+    it 'should return status code 204' do
+      expect(response).to have_http_status(204)
+    end
+
+    it 'should remove register from database' do
+      expect{Trade.find(trade.id)}.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
 end
