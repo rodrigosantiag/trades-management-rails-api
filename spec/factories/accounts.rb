@@ -6,7 +6,7 @@ FactoryBot.define do
     }
     currency { Faker::Currency.code }
     initial_balance { Faker::Number.decimal }
-    current_balance { Faker::Number.decimal }
+    current_balance { initial_balance }
     broker
     user
   end

@@ -3,12 +3,4 @@ class TradeSerializer < ActiveModel::Serializer
 
   belongs_to :account
   belongs_to :user
-
-  def result_balance
-    if object.result?
-      object.value * object.profit / 100
-    else
-      -object.value
-    end
-  end
 end

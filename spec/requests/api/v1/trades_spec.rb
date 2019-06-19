@@ -92,6 +92,11 @@ RSpec.describe 'Trade API', type: :request do
       it 'should associate with user' do
         expect(json_body[:data][:attributes][:'user-id']).to eq(user.id)
       end
+
+      it 'should update account balance' do
+        trade_account = Account.find(account.id)
+        expect(trade_account.current_balance).to eq(account.initial_balance + json_body[:data][:attributes][:'result-balance'].to_d)
+      end
     end
 
     context 'when params are invalid' do
@@ -134,6 +139,12 @@ RSpec.describe 'Trade API', type: :request do
       it 'should save updated data on database' do
         saved_trade = Trade.find(trade.id)
         expect(saved_trade.profit).to eq(trade_params[:profit])
+      end
+
+      it 'should update account balance' do
+        trade_account = Account.find(account.id)
+        account_trades = trade_account.trades.sum(:result_balance)
+        expect(trade_account.current_balance).to eq(account.current_balance + account_trades)
       end
     end
 
