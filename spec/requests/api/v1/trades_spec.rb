@@ -180,5 +180,11 @@ RSpec.describe 'Trade API', type: :request do
     it 'should remove register from database' do
       expect{Trade.find(trade.id)}.to raise_error(ActiveRecord::RecordNotFound)
     end
+
+    it 'should update account balance' do
+      trade_account = Account.find(account.id)
+      account_trades = trade_account.trades.sum(:result_balance)
+      expect(trade_account.current_balance).to eq(account.current_balance + account_trades)
+    end
   end
 end

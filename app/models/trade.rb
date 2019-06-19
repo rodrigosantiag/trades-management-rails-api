@@ -6,7 +6,7 @@ class Trade < ApplicationRecord
   belongs_to :user
 
   after_validation :set_result_balance, on: [:create, :update]
-  after_commit :update_account_balance, on: [:create, :update]
+  after_commit :update_account_balance, on: [:create, :update, :destroy]
 
   def set_result_balance
       if self.result?
@@ -24,7 +24,8 @@ class Trade < ApplicationRecord
 
 
   def update_account_balance
-    current_balance = self.account.initial_balance + self.account.trades.sum(:result_balance)
-    Account.update(self.account.id, :current_balance => current_balance)
+    trade_account = Account.find(self.account_id)
+    current_balance = trade_account.initial_balance + trade_account.trades.sum(:result_balance)
+    Account.update(trade_account.id, :current_balance => current_balance)
   end
 end
