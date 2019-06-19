@@ -3,4 +3,6 @@ class Account < ApplicationRecord
 
   belongs_to :broker
   belongs_to :user
+
+  has_many :trades, dependent: :destroy
 end
