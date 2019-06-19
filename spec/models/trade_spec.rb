@@ -13,4 +13,5 @@ RSpec.describe Trade, type: :model do
   it {is_expected.to respond_to(:profit)}
   it {is_expected.to respond_to(:result)}
   it {is_expected.to respond_to(:result_balance)}
+  it {is_expected.to respond_to(:type_trade)}
 end

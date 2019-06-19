@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190616140158) do
+ActiveRecord::Schema.define(version: 20190619065355) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "type_account",    limit: 1
@@ -34,14 +34,15 @@ ActiveRecord::Schema.define(version: 20190616140158) do
   end
 
   create_table "trades", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.decimal  "value",          precision: 10, scale: 2
-    t.decimal  "profit",         precision: 10, scale: 2
+    t.decimal  "value",                    precision: 10, scale: 2
+    t.decimal  "profit",                   precision: 10, scale: 2
     t.boolean  "result"
-    t.decimal  "result_balance", precision: 10, scale: 2
+    t.decimal  "result_balance",           precision: 10, scale: 2
     t.integer  "account_id"
     t.integer  "user_id"
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
+    t.datetime "created_at",                                                      null: false
+    t.datetime "updated_at",                                                      null: false
+    t.string   "type_trade",     limit: 1,                          default: "T"
     t.index ["account_id"], name: "index_trades_on_account_id", using: :btree
     t.index ["user_id"], name: "index_trades_on_user_id", using: :btree
   end

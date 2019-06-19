@@ -43,7 +43,7 @@ class Api::V1::TradesController < ApplicationController
   private
 
   def trade_params
-    params.require(:trade).permit(:value, :profit, :result, :result_balance, :account_id)
+    params.require(:trade).permit(:value, :profit, :result, :result_balance, :account_id, :type_trade)
   end
 
 end
