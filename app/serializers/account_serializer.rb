@@ -1,5 +1,5 @@
 class AccountSerializer < ActiveModel::Serializer
-  attributes :id, :type_account, :currency, :initial_balance, :current_balance, :broker_id, :user_id, :broker, :trades
+  attributes :id, :type_account, :currency, :initial_balance, :current_balance, :broker_id, :user_id, :broker, :trades, :createdDateFormatted
 
   belongs_to :broker
   belongs_to :user
@@ -11,4 +11,9 @@ class AccountSerializer < ActiveModel::Serializer
       ::TradeSerializer.new(trade).attributes
     end
   end
+
+  def createdDateFormatted
+    object.created_at.strftime('%m/%d/%Y %H:%M:%S')
+  end
+
 end
