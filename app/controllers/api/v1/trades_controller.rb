@@ -2,9 +2,19 @@ class Api::V1::TradesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    trades = current_user.trades.ransack(params[:q]).result
+    params[:page] ||= 1
 
-    render json: trades, status: 200
+    if params[:account_id]
+      account = current_user.accounts.find(params[:account_id])
+
+      trades = account.trades.order('id DESC').page(params[:page]).per(10)
+
+      paginate json: trades, per_page: 10, status: 200, meta: {total: trades.total_count}
+    else
+      trades = current_user.trades.ransack(params[:q]).result
+
+      render json: trades, status: 200
+    end
   end
 
   def show

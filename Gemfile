@@ -69,3 +69,7 @@ gem 'rack-cors'
 
 # Ransack
 gem 'ransack', github: 'activerecord-hackery/ransack'
+
+# Pagination
+gem 'kaminari'
+gem 'api-pagination'
