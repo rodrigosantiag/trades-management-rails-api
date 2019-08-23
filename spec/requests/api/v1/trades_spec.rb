@@ -82,7 +82,7 @@ RSpec.describe 'Trade API', type: :request do
       end
 
       it 'should should return trade data' do
-        expect(json_body[:data][:attributes][:'value']).to eq(trade_params[:value])
+        expect(json_body[:data][:attributes][:'value'].to_d).to eq(trade_params[:value])
       end
 
       it 'should associate with account' do
