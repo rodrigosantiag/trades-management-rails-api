@@ -27,7 +27,7 @@ class Trade < ApplicationRecord
     trade_account = Account.find(self.account_id)
     if trade_account
       current_balance = trade_account.initial_balance + trade_account.trades.sum(:result_balance)
-      Account.update(trade_account.id, :current_balance => current_balance)
+      trade_account.update(:current_balance => current_balance)
     end
   end
 end
