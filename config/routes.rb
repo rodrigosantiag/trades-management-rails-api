@@ -1,7 +1,7 @@
 require 'api_version_constraint'
 
 Rails.application.routes.draw do
-  devise_for :users, controllers: {confirmations: 'confirmations'}
+  devise_for :users, controllers: {confirmations: 'confirmations', passwords: 'passwords'}
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   namespace :api, defaults: {format: :json}, path: '/', constraints: {subdomain: 'api'} do
@@ -10,6 +10,9 @@ Rails.application.routes.draw do
       resources :brokers, only: [:index, :show, :create, :update, :destroy]
       resources :accounts, only: [:index, :show, :create, :update, :destroy]
       resources :trades, only: [:index, :create, :update, :destroy, :show]
+      controller :users do
+        put 'reset_password/:reset_token_password', to: 'users#reset_password'
+      end
     end
   end
 end
