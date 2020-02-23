@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       controller :users do
         put 'reset_password/:reset_token_password', to: 'users#reset_password'
       end
+      resources :users, only: [:show, :update]
     end
   end
 end

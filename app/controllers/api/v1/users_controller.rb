@@ -13,9 +13,17 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def show
+    if params[:id].to_i == current_user.id
+      render json: current_user, status: 200
+    else
+      raise ActiveRecord::RecordNotFound
+    end
+  end
+
   private
 
   def user_params
-    params.require(:user).permit(:password, :password_confirmation)
+    params.require(:user).permit(:password, :password_confirmation, :name, :risk)
   end
 end
