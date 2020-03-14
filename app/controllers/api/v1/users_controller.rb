@@ -21,6 +21,17 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def update
+    user = User.find(params[:id])
+    render json: {errors: ['You are not allowed to edit this user']}, status: 404 if current_user.id != user.id
+
+    if user.update_attributes(user_params)
+      render json: user, status: 200
+    else
+      render json: {errors: user.errors}, status: 422
+    end
+  end
+
   private
 
   def user_params
