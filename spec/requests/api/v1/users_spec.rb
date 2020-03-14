@@ -147,4 +147,17 @@ RSpec.describe 'User API', type: :request do
       end
     end
   end
+
+  describe 'GET /users/:id' do
+    context 'when user is valid' do
+      before {get "/users/#{user.id}", params: {}, headers: headers}
+      it 'should return status code 200' do
+        expect(response).to have_http_status(200)
+      end
+
+      it 'should return user data' do
+        expect(json_body[:data][:attributes][:name]).to eq(user.name)
+      end
+    end
+  end
 end

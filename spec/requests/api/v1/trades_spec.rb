@@ -66,7 +66,7 @@ RSpec.describe 'Trade API', type: :request do
     end
   end
 
-  describe 'POTS /accounts' do
+  describe 'POST /accounts' do
     context 'when params are valid' do
       let(:trade_params) {attributes_for(:trade, account_id: account.id)}
       before do
@@ -82,7 +82,7 @@ RSpec.describe 'Trade API', type: :request do
       end
 
       it 'should should return trade data' do
-        expect(json_body[:data][:attributes][:'value'].to_d).to eq(trade_params[:value])
+        expect(json_body[:data][:attributes][:'value'].to_d).to eq(trade_params[:value].to_d)
       end
 
       it 'should associate with account' do
