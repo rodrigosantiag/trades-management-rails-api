@@ -58,4 +58,5 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   Rails.application.routes.default_url_options[:host] = 'api.binaryoptionsmanagement.local'
+  config.hosts << "api.binaryoptionsmanagement.local"
 end

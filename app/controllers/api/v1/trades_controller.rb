@@ -36,7 +36,7 @@ class Api::V1::TradesController < ApplicationController
   def update
     trade = current_user.trades.find(params[:id])
 
-    if trade.update_attributes(trade_params)
+    if trade.update(trade_params)
       render json: trade, status: 200
     else
       render json: {errors: trade.errors}, status: 422

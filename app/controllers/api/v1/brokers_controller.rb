@@ -27,7 +27,7 @@ class Api::V1::BrokersController < ApplicationController
   def update
     broker = current_user.brokers.find(params[:id])
 
-    if broker.update_attributes(broker_params)
+    if broker.update(broker_params)
       render json: broker, status: 200
     else
       render json: {errors: broker.errors}, status: 422

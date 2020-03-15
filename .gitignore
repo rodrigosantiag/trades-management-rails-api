@@ -159,3 +159,10 @@ yarn-debug.log*
 
 # End of https://www.gitignore.io/api/rails,intellij+all
 
+
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
