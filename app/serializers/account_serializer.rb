@@ -1,5 +1,5 @@
 class AccountSerializer < ActiveModel::Serializer
-  attributes :id, :type_account, :currency, :initial_balance, :current_balance, :broker_id, :user_id, :broker, :trades, :createdDateFormatted
+  attributes :id, :type_account, :currency, :initial_balance, :current_balance, :broker_id, :user_id, :broker, :trades, :createdDateFormatted, :accountRisk
 
   belongs_to :broker
   belongs_to :user
@@ -10,6 +10,10 @@ class AccountSerializer < ActiveModel::Serializer
     object.trades.map do |trade|
       ::TradeSerializer.new(trade).attributes
     end
+  end
+
+  def accountRisk
+    object.user.risk
   end
 
   def createdDateFormatted
