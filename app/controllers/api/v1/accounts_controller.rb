@@ -8,7 +8,7 @@ class Api::V1::AccountsController < ApplicationController
   end
 
   def show
-    account = current_user.accounts.find(params[:id])
+    account = current_user.accounts.find_by_id(params[:id])
 
     render json: account, include: 'broker', status: 200
   end
