@@ -6,6 +6,7 @@ RSpec.describe User, type: :model do
   it {is_expected.to have_many(:brokers).dependent(:destroy)}
   it {is_expected.to have_many(:accounts).dependent(:destroy)}
   it {is_expected.to have_many(:trades).dependent(:destroy)}
+  it {is_expected.to have_many(:strategies).dependent(:destroy)}
 
   it {is_expected.to validate_presence_of(:name)}
   it {is_expected.to validate_presence_of(:email)}

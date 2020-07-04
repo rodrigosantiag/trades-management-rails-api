@@ -3,6 +3,7 @@ class TradeSerializer < ActiveModel::Serializer
 
   belongs_to :account
   belongs_to :user
+  belongs_to :strategy
 
   def createdDateFormatted
     object.created_at.strftime('%m/%d/%Y %H:%M:%S')

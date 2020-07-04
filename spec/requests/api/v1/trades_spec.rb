@@ -5,6 +5,7 @@ RSpec.describe 'Trade API', type: :request do
   let!(:user) {create(:user)}
   let!(:auth_data) {user.create_new_auth_token}
   let!(:account) {create(:account, user_id: user.id)}
+  let!(:strategy) {create(:strategy, user_id: user.id)}
   let(:headers) do
     {
         'Accept' => 'application/vnd.binaryoptionsmanagement.local',
@@ -19,7 +20,7 @@ RSpec.describe 'Trade API', type: :request do
 
     context 'when params are not passed' do
       before do
-        create_list(:trade, 10, account_id: account.id, user_id: user.id)
+        create_list(:trade, 10, account_id: account.id, user_id: user.id, strategy_id: strategy.id)
         get '/trades', params: {}, headers: headers
       end
 
@@ -34,10 +35,10 @@ RSpec.describe 'Trade API', type: :request do
 
     context 'when params are passed' do
       let!(:account2) {create(:account, user_id: user.id)}
-      let!(:trade1) {create(:trade, account_id: account.id, user_id: user.id)}
-      let!(:trade2) {create(:trade, account_id: account2.id, user_id: user.id)}
-      let!(:trade3) {create(:trade, account_id: account.id, user_id: user.id)}
-      let!(:trade4) {create(:trade, account_id: account2.id, user_id: user.id)}
+      let!(:trade1) {create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy.id)}
+      let!(:trade2) {create(:trade, account_id: account2.id, user_id: user.id, strategy_id: strategy.id)}
+      let!(:trade3) {create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy.id)}
+      let!(:trade4) {create(:trade, account_id: account2.id, user_id: user.id, strategy_id: strategy.id)}
       before do
         get "/trades?q[account_id_eq]=#{account.id}", params: {}, headers: headers
       end
@@ -51,7 +52,7 @@ RSpec.describe 'Trade API', type: :request do
   end
 
   describe 'GET /trades/:id' do
-    let(:trade) {create(:trade, account_id: account.id, user_id: user.id)}
+    let(:trade) {create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy.id)}
 
     before do
       get "/trades/#{trade.id}", params: {}, headers: headers
@@ -68,7 +69,7 @@ RSpec.describe 'Trade API', type: :request do
 
   describe 'POST /accounts' do
     context 'when params are valid' do
-      let(:trade_params) {attributes_for(:trade, account_id: account.id)}
+      let(:trade_params) {attributes_for(:trade, account_id: account.id, strategy_id: strategy.id)}
       before do
         post '/trades', params: {trade: trade_params}.to_json, headers: headers
       end
@@ -120,7 +121,7 @@ RSpec.describe 'Trade API', type: :request do
   end
 
   describe 'PUT /trades/:id' do
-    let!(:trade) {create(:trade, account_id: account.id, user_id: user.id)}
+    let!(:trade) {create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy.id)}
     before do
       put "/trades/#{trade.id}", params: {trade: trade_params}.to_json, headers: headers
     end
@@ -167,7 +168,7 @@ RSpec.describe 'Trade API', type: :request do
   end
 
   describe 'DELETE /trades/:id' do
-    let(:trade) {create(:trade, account_id: account.id, user_id: user.id)}
+    let(:trade) {create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy.id)}
 
     before do
       delete "/trades/#{trade.id}", params: {}, headers: headers

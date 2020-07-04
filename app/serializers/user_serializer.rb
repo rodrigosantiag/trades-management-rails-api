@@ -4,4 +4,5 @@ class UserSerializer < ActiveModel::Serializer
   has_many :brokers, dependent: :destroy
   has_many :accounts, dependent: :destroy
   has_many :trades, dependent: :destroy
+  has_many :strategies, dependent: :destroy
 end
