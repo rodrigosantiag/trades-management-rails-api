@@ -94,6 +94,10 @@ RSpec.describe 'Trade API', type: :request do
         expect(json_body[:data][:attributes][:'user-id']).to eq(user.id)
       end
 
+      it 'should associate with strategy' do
+        expect(json_body[:data][:attributes][:'strategy-id']).to eq(strategy.id)
+      end
+
       it 'should update account balance' do
         trade_account = Account.find(account.id)
         expect(trade_account.current_balance).to eq(account.initial_balance + json_body[:data][:attributes][:'result-balance'].to_d)

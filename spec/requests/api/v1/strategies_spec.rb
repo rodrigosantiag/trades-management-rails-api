@@ -143,4 +143,26 @@ RSpec.describe 'Strategy API', type: :request do
     end
   end
 
+  describe 'DELETE /strategies/:id' do
+    let!(:strategy) { create(:strategy, user_id: user.id) }
+    let!(:trade) {create(:trade, user_id: user.id, strategy_id: strategy.id)}
+
+    before do
+      delete "/strategies/#{strategy.id}", params: {}, headers: headers
+    end
+
+    it 'should return status code 204' do
+      expect(response).to have_http_status(204)
+    end
+
+    it 'should remove strategy from database' do
+      expect {Strategy.find(strategy.id)}.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
+    it 'should nullify trade strategy ID' do
+      trade_after_strategy_deleted = Trade.find(trade.id)
+      expect(trade_after_strategy_deleted.strategy_id).to be_nil
+    end
+  end
+
 end

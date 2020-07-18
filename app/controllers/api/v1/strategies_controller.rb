@@ -35,7 +35,13 @@ class Api::V1::StrategiesController < ApplicationController
     end
   end
 
-  # TODO: delete methos and tests
+  def destroy
+    strategy = current_user.strategies.find params[:id]
+
+    strategy.destroy
+
+    head 204
+  end
 
   private
   def strategy_params

@@ -6,6 +6,7 @@ FactoryBot.define do
     result_balance {nil}
     account
     user
+    strategy
 
     after(:build) do |trade|
       if trade.result?
