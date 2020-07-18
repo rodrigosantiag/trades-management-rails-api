@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_19_065355) do
+ActiveRecord::Schema.define(version: 2020_07_04_191929) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "type_account", limit: 1
@@ -33,6 +33,14 @@ ActiveRecord::Schema.define(version: 2019_06_19_065355) do
     t.index ["user_id"], name: "index_brokers_on_user_id"
   end
 
+  create_table "strategies", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.integer "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_strategies_on_user_id"
+  end
+
   create_table "trades", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.decimal "value", precision: 10, scale: 2
     t.decimal "profit", precision: 10, scale: 2
@@ -43,7 +51,9 @@ ActiveRecord::Schema.define(version: 2019_06_19_065355) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "type_trade", limit: 1, default: "T"
+    t.bigint "strategy_id"
     t.index ["account_id"], name: "index_trades_on_account_id"
+    t.index ["strategy_id"], name: "index_trades_on_strategy_id"
     t.index ["user_id"], name: "index_trades_on_user_id"
   end
 
@@ -74,6 +84,8 @@ ActiveRecord::Schema.define(version: 2019_06_19_065355) do
   add_foreign_key "accounts", "brokers"
   add_foreign_key "accounts", "users"
   add_foreign_key "brokers", "users"
+  add_foreign_key "strategies", "users"
   add_foreign_key "trades", "accounts"
+  add_foreign_key "trades", "strategies"
   add_foreign_key "trades", "users"
 end

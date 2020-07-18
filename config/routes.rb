@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       resources :brokers, only: [:index, :show, :create, :update, :destroy]
       resources :accounts, only: [:index, :show, :create, :update, :destroy]
       resources :trades, only: [:index, :create, :update, :destroy, :show]
+      resources :strategies, only: [:index, :create, :update, :destroy, :show]
       controller :users do
         put 'reset_password/:reset_token_password', to: 'users#reset_password'
       end
