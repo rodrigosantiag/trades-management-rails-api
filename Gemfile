@@ -8,8 +8,12 @@ end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '6.0'
-# Use pg as the database for Active Record
-gem 'pg', '>= 0.18', '< 2.0'
+# Use pg as the database for Active Record (Development and Production)
+gem 'pg', '>= 0.18', '< 2.0', group: [:development, :production]
+
+# Use sqlite3 for Test
+gem 'sqlite3', group: :test
+
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder

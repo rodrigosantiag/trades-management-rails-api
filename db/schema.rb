@@ -12,10 +12,7 @@
 
 ActiveRecord::Schema.define(version: 2020_07_04_191929) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
-  create_table "accounts", id: :serial, force: :cascade do |t|
+  create_table "accounts", force: :cascade do |t|
     t.string "type_account", limit: 1
     t.string "currency", limit: 3
     t.decimal "initial_balance", precision: 10, scale: 2, default: "0.0"
@@ -28,7 +25,7 @@ ActiveRecord::Schema.define(version: 2020_07_04_191929) do
     t.index ["user_id"], name: "index_accounts_on_user_id"
   end
 
-  create_table "brokers", id: :serial, force: :cascade do |t|
+  create_table "brokers", force: :cascade do |t|
     t.string "name"
     t.integer "user_id"
     t.datetime "created_at", null: false
@@ -44,7 +41,7 @@ ActiveRecord::Schema.define(version: 2020_07_04_191929) do
     t.index ["user_id"], name: "index_strategies_on_user_id"
   end
 
-  create_table "trades", id: :serial, force: :cascade do |t|
+  create_table "trades", force: :cascade do |t|
     t.decimal "value", precision: 10, scale: 2
     t.decimal "profit", precision: 10, scale: 2
     t.boolean "result"
@@ -54,13 +51,13 @@ ActiveRecord::Schema.define(version: 2020_07_04_191929) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "type_trade", limit: 1, default: "T"
-    t.bigint "strategy_id"
+    t.integer "strategy_id"
     t.index ["account_id"], name: "index_trades_on_account_id"
     t.index ["strategy_id"], name: "index_trades_on_strategy_id"
     t.index ["user_id"], name: "index_trades_on_user_id"
   end
 
-  create_table "users", id: :serial, force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
     t.string "encrypted_password", default: "", null: false
