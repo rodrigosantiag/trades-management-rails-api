@@ -89,5 +89,6 @@ test:
 production:
   <<: *default
   database: binary_financial_system_api_production
-  username: binary_financial_system_api
-  password: <%= ENV['BINARY_FINANCIAL_SYSTEM_API_DATABASE_PASSWORD'] %>
+  username: postgres
+  host: postgres
+  password: ''

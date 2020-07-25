@@ -12,6 +12,6 @@ staging:
   stage: deploy
   script:
     - gem install dpl
-    - dpl --provider=heroku --app=binary-financial-system-api --api-key=ee7e5536-218b-40eb-b80d-4e0a084f3d4e
+    - dpl --provider=heroku --app=binary-financial-system-api --api-key=$HEROKU_STAGING_API_KEY
   only:
     - master
