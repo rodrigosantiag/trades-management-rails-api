@@ -82,3 +82,7 @@ gem 'bootsnap', '~> 1.4', '>= 1.4.4'
 
 # Webpacker
 gem "webpacker"
+
+group :production do
+  gem 'sendgrid-ruby'
+end
