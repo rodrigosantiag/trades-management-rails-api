@@ -12,6 +12,7 @@ staging:
   stage: deploy
   script:
     - gem install dpl
+    - gem install bundler
     - bundle exec rake db:migrate
     - dpl --provider=heroku --app=binary-financial-system-api --api-key=$HEROKU_STAGING_API_KEY
   only:
