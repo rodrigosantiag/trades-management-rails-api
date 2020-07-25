@@ -12,7 +12,10 @@
 
 ActiveRecord::Schema.define(version: 2020_07_04_191929) do
 
-  create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "accounts", id: :serial, force: :cascade do |t|
     t.string "type_account", limit: 1
     t.string "currency", limit: 3
     t.decimal "initial_balance", precision: 10, scale: 2, default: "0.0"
@@ -25,7 +28,7 @@ ActiveRecord::Schema.define(version: 2020_07_04_191929) do
     t.index ["user_id"], name: "index_accounts_on_user_id"
   end
 
-  create_table "brokers", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "brokers", id: :serial, force: :cascade do |t|
     t.string "name"
     t.integer "user_id"
     t.datetime "created_at", null: false
@@ -33,7 +36,7 @@ ActiveRecord::Schema.define(version: 2020_07_04_191929) do
     t.index ["user_id"], name: "index_brokers_on_user_id"
   end
 
-  create_table "strategies", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "strategies", force: :cascade do |t|
     t.string "name"
     t.integer "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -41,7 +44,7 @@ ActiveRecord::Schema.define(version: 2020_07_04_191929) do
     t.index ["user_id"], name: "index_strategies_on_user_id"
   end
 
-  create_table "trades", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "trades", id: :serial, force: :cascade do |t|
     t.decimal "value", precision: 10, scale: 2
     t.decimal "profit", precision: 10, scale: 2
     t.boolean "result"
@@ -57,7 +60,7 @@ ActiveRecord::Schema.define(version: 2020_07_04_191929) do
     t.index ["user_id"], name: "index_trades_on_user_id"
   end
 
-  create_table "users", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "users", id: :serial, force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
     t.string "encrypted_password", default: "", null: false
