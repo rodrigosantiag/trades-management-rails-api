@@ -90,6 +90,6 @@ production:
   <<: *default
   database: binary_financial_system_api_production
   url: <%= ENV['DATABASE_URL'] %>
-  username: postgres
-  host: postgres
-  password: ''
+#  username: postgres
+#  host: postgres
+#  password: ''
