@@ -3,7 +3,8 @@ test:
   script:
     - apt-get update -qy
     - apt-get install -y nodejs
-    - bundle install --path /cache
+    - gem install bundler
+    - bundle install
     - bundle exec rake db:create RAILS_ENV=test
     - bundle exec spring rspec
 
