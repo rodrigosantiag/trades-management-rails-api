@@ -11,6 +11,10 @@ test:
 staging:
   stage: deploy
   script:
+    - echo "deb https://cli-assets.heroku.com/branches/stable/apt ./" > /etc/apt/sources.list.d/heroku.list
+    - wget -O- https://cli-assets.heroku.com/apt/release.key | apt-key add -
+    - apt-get update
+    - apt-get install -y heroku
     - gem install dpl
     - dpl --provider=heroku --app=binary-financial-system-api --api-key=$HEROKU_STAGING_API_KEY
     - heroku run rails db:migrate --exit-code --app $HEROKU_STAGING_APP
