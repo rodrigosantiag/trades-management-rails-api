@@ -9,7 +9,7 @@ end
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '6.0'
 # Use pg as the database for Active Record (Development and Production)
-gem 'pg', '>= 0.18', '< 2.0', group: [:development, :production]
+gem 'pg', '>= 0.18', '< 2.0', group: %i[development production]
 
 # Use sqlite3 for Test
 gem 'sqlite3', group: :test
@@ -34,8 +34,9 @@ group :test do
   gem 'rails-controller-testing'
 end
 
+gem 'rspec-rails', '~> 3.8', group: %i[development test production]
+
 group :development, :test do
-  gem 'rspec-rails', '~> 3.8'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
   gem 'listen', '~> 3.0.5'
@@ -54,7 +55,7 @@ group :development do
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 # Devise
 gem 'devise', '~> 4.7', '>= 4.7.1'
