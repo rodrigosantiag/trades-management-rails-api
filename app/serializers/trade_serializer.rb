@@ -1,5 +1,5 @@
 class TradeSerializer < ActiveModel::Serializer
-  attributes :id, :value, :profit, :result, :result_balance, :account_id, :user_id, :strategy_id, :account, :type_trade, :createdDateFormatted
+  attributes :id, :value, :profit, :result, :result_balance, :account_id, :user_id, :strategy_id, :account, :strategy, :type_trade, :createdDateFormatted
 
   belongs_to :account
   belongs_to :user
