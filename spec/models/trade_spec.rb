@@ -5,7 +5,7 @@ RSpec.describe Trade, type: :model do
 
   it {is_expected.to belong_to(:account)}
   it {is_expected.to belong_to(:user)}
-  it {is_expected.to belong_to(:strategy)}
+  it {is_expected.to belong_to(:strategy).optional}
 
   it {is_expected.to validate_presence_of(:value)}
   it {is_expected.to validate_presence_of(:profit)}
