@@ -4,7 +4,7 @@ class Trade < ApplicationRecord
 
   belongs_to :account
   belongs_to :user
-  belongs_to :strategy
+  belongs_to :strategy, optional: true
 
   after_validation :set_result_balance, on: [:create, :update]
   after_commit :update_account_balance, on: [:create, :update, :destroy]
