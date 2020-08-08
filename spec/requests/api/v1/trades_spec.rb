@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'Trade API', type: :request do
-  before {host! 'api.binaryoptionsmanagement.local'}
-  let!(:user) {create(:user)}
-  let!(:auth_data) {user.create_new_auth_token}
-  let!(:account) {create(:account, user_id: user.id)}
-  let!(:strategy) {create(:strategy, user_id: user.id)}
+  before { host! 'api.binaryoptionsmanagement.local' }
+  let!(:user) { create(:user) }
+  let!(:auth_data) { user.create_new_auth_token }
+  let!(:account) { create(:account, user_id: user.id) }
+  let!(:strategy) { create(:strategy, user_id: user.id) }
   let(:headers) do
     {
         'Accept' => 'application/vnd.binaryoptionsmanagement.local',
@@ -34,17 +34,17 @@ RSpec.describe 'Trade API', type: :request do
     end
 
     context 'when params are passed' do
-      let!(:account2) {create(:account, user_id: user.id)}
-      let!(:trade1) {create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy.id)}
-      let!(:trade2) {create(:trade, account_id: account2.id, user_id: user.id, strategy_id: strategy.id)}
-      let!(:trade3) {create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy.id)}
-      let!(:trade4) {create(:trade, account_id: account2.id, user_id: user.id, strategy_id: strategy.id)}
+      let!(:account2) { create(:account, user_id: user.id) }
+      let!(:trade1) { create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy.id) }
+      let!(:trade2) { create(:trade, account_id: account2.id, user_id: user.id, strategy_id: strategy.id) }
+      let!(:trade3) { create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy.id) }
+      let!(:trade4) { create(:trade, account_id: account2.id, user_id: user.id, strategy_id: strategy.id) }
       before do
         get "/trades?q[account_id_eq]=#{account.id}", params: {}, headers: headers
       end
 
       it 'should return only account\'s trades' do
-        trades = json_body[:data].map {|trade| trade[:attributes][:'account-id'].to_i}
+        trades = json_body[:data].map { |trade| trade[:attributes][:'account-id'].to_i }
 
         expect(trades).to eq([trade1.account_id, trade3.account_id])
       end
@@ -52,7 +52,7 @@ RSpec.describe 'Trade API', type: :request do
   end
 
   describe 'GET /trades/:id' do
-    let(:trade) {create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy.id)}
+    let(:trade) { create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy.id) }
 
     before do
       get "/trades/#{trade.id}", params: {}, headers: headers
@@ -69,9 +69,9 @@ RSpec.describe 'Trade API', type: :request do
 
   describe 'POST /accounts' do
     context 'when params are valid' do
-      let(:trade_params) {attributes_for(:trade, account_id: account.id, strategy_id: strategy.id)}
+      let(:trade_params) { attributes_for(:trade, account_id: account.id, strategy_id: strategy.id) }
       before do
-        post '/trades', params: {trade: trade_params}.to_json, headers: headers
+        post '/trades', params: { trade: trade_params }.to_json, headers: headers
       end
 
       it 'should return status code 201' do
@@ -105,9 +105,9 @@ RSpec.describe 'Trade API', type: :request do
     end
 
     context 'when params are invalid' do
-      let(:trade_params) {attributes_for(:trade, profit: nil, account_id: account.id)}
+      let(:trade_params) { attributes_for(:trade, profit: nil, account_id: account.id) }
       before do
-        post '/trades', params: {trade: trade_params}.to_json, headers: headers
+        post '/trades', params: { trade: trade_params }.to_json, headers: headers
       end
 
       it 'should return status code 422' do
@@ -119,19 +119,19 @@ RSpec.describe 'Trade API', type: :request do
       end
 
       it 'should not save trade on database' do
-        expect{Trade.find_by!(profit: trade_params[:profit])}.to raise_error(ActiveRecord::RecordNotFound)
+        expect { Trade.find_by!(profit: trade_params[:profit]) }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
   end
 
   describe 'PUT /trades/:id' do
-    let!(:trade) {create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy.id)}
+    let!(:trade) { create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy.id) }
     before do
-      put "/trades/#{trade.id}", params: {trade: trade_params}.to_json, headers: headers
+      put "/trades/#{trade.id}", params: { trade: trade_params }.to_json, headers: headers
     end
 
     context 'when params are valid' do
-      let(:trade_params) {{profit: 87}}
+      let(:trade_params) { { profit: 87 } }
 
       it 'should return status code 200' do
         expect(response).to have_http_status(200)
@@ -154,7 +154,7 @@ RSpec.describe 'Trade API', type: :request do
     end
 
     context 'when params are invalid' do
-      let(:trade_params) {{value: ' '}}
+      let(:trade_params) { { value: ' ' } }
 
       it 'should return status code 422' do
         expect(response).to have_http_status(422)
@@ -172,7 +172,7 @@ RSpec.describe 'Trade API', type: :request do
   end
 
   describe 'DELETE /trades/:id' do
-    let(:trade) {create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy.id)}
+    let(:trade) { create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy.id) }
 
     before do
       delete "/trades/#{trade.id}", params: {}, headers: headers
@@ -183,13 +183,77 @@ RSpec.describe 'Trade API', type: :request do
     end
 
     it 'should remove register from database' do
-      expect{Trade.find(trade.id)}.to raise_error(ActiveRecord::RecordNotFound)
+      expect { Trade.find(trade.id) }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
     it 'should update account balance' do
       trade_account = Account.find(account.id)
       account_trades = trade_account.trades.sum(:result_balance)
       expect(trade_account.current_balance).to eq(account.current_balance + account_trades)
+    end
+  end
+
+  describe 'POST /trades/analytics' do
+
+    context 'when account_id is selected and params are passed' do
+      let!(:strategy1) { create(:strategy) }
+      let!(:strategy2) { create(:strategy) }
+      let!(:trade1) do
+        create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy1.id,
+                       created_at: '2020-08-01 00:00:00'.to_date)
+      end
+      let!(:trade2) do
+        create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy2.id,
+                       created_at: '2020-08-01 00:00:00'.to_date)
+      end
+      let!(:trade3) do
+        create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy1.id,
+                       created_at: '2020-08-02 00:00:00'.to_date)
+      end
+      let!(:trade4) do
+        create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy2.id,
+                       created_at: '2020-08-03 00:00:00'.to_date)
+      end
+      let!(:trade5) do
+        create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy1.id,
+                       created_at: '2020-08-03 00:00:00'.to_date)
+      end
+      before do
+        post '/trades/analytics', params: { q: { account_id_eq: account.id, created_at_lteq: '2020-08-03'.to_date,
+                                                 created_at_gteq: '2020-08-02'.to_date, strategy_id_eq: strategy1.id } }
+          .to_json,
+                                  headers: headers
+      end
+
+      it 'should return only account\'s trades' do
+        trades = json_body[:data].map { |trade| trade[:attributes][:'account-id'].to_i }
+
+        expect(trades.uniq.size).to eq(1)
+        expect(trades.first).to eq(account.id)
+      end
+
+      it 'should return only trades that attend to params passed' do
+        trades = json_body[:data].map { |t| t[:id].to_i }
+
+        expect(trades).to eq([trade3.id, trade5.id])
+      end
+
+    end
+
+    context 'when account_id is not selected' do
+      before do
+        create_list(:trade, 10, account_id: account.id, user_id: user.id, strategy_id: strategy.id)
+        post '/trades/analytics', params: { q: { account_id_eq: nil } }.to_json, headers: headers
+      end
+
+      it 'should return status code 422' do
+        expect(response).to have_http_status(422)
+      end
+
+      it 'should return errors key' do
+        expect(json_body).to have_key(:errors)
+      end
+
     end
   end
 end

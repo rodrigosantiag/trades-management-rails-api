@@ -5,15 +5,9 @@ class Api::V1::TradesController < ApplicationController
     params[:page] ||= 1
 
     if params[:account_id]
-      account = current_user.accounts.find(params[:account_id])
-
-      trades = account.trades.order('id DESC').page(params[:page]).per(10)
-
-      paginate json: trades, per_page: 10, status: 200, meta: {total: trades.total_count}
+      get_trades_account(params[:account_id])
     else
-      trades = current_user.trades.ransack(params[:q]).result
-
-      render json: trades, status: 200
+      get_trades_by_params(params[:q])
     end
   end
 
@@ -50,10 +44,33 @@ class Api::V1::TradesController < ApplicationController
     head 204
   end
 
+  def analytics
+    # TODO: format api response to include extra data (as ITM and OTM rate, monthly result, etc.)
+    if params[:q][:account_id_eq]
+      get_trades_by_params(params[:q])
+    else
+      render json: {errors: {message: 'You must select a Broker Account'}}, status: 422
+    end
+  end
+
   private
 
   def trade_params
     params.require(:trade).permit(:value, :profit, :result, :result_balance, :account_id, :type_trade, :strategy_id)
+  end
+
+  def get_trades_account account_id
+    account = current_user.accounts.find account_id
+
+    trades = account.trades.order('id DESC').page(params[:page]).per(10)
+
+    paginate json: trades, per_page: 10, status: 200, meta: {total: trades.total_count}
+  end
+
+  def get_trades_by_params params
+    trades = current_user.trades.ransack(params).result
+
+    render json: trades, status: 200
   end
 
 end
