@@ -1,5 +1,9 @@
+# frozen_string_literal: true
+
+# Serializer for Account model
 class AccountSerializer < ActiveModel::Serializer
-  attributes :id, :type_account, :currency, :initial_balance, :current_balance, :broker_id, :user_id, :broker, :trades, :createdDateFormatted, :accountRisk
+  attributes :id, :type_account, :currency, :initial_balance, :current_balance, :broker_id, :user_id, :broker,
+             :trades, :created_date_formatted, :account_risk
 
   belongs_to :broker
   belongs_to :user
@@ -12,11 +16,11 @@ class AccountSerializer < ActiveModel::Serializer
     end
   end
 
-  def accountRisk
+  def account_risk
     object.user.risk
   end
 
-  def createdDateFormatted
+  def created_date_formatted
     object.created_at.strftime('%m/%d/%Y %H:%M:%S')
   end
 

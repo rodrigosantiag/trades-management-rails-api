@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Trade object represents a trade which is taken in a user's account
 class Trade < ApplicationRecord
   validates_presence_of :value, :profit, :account, :user
   validates_inclusion_of :result, in: [true, false]
@@ -19,12 +22,6 @@ class Trade < ApplicationRecord
                           end
 
   end
-
-  #   TODO: think better about updating account balance after an account deposit or refill.
-  #         Ideas: should I update current_balance or initial_balance?
-  #         Probably it'd be necessary to create a flag to reset trades summing by ID (create a column on accounts table
-  #         *trade_count_id* and below this id I'd have to sum to get right statistics)
-
 
   def update_account_balance
     trade_account = Account.find_by_id(account_id)

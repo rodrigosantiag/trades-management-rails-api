@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Serializer for Strategy model
 class StrategySerializer < ActiveModel::Serializer
   attributes :id, :name, :user_id
 

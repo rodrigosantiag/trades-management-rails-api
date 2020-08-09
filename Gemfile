@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 git_source(:github) do |repo_name|
-  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
+  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
   "https://github.com/#{repo_name}.git"
 end
 
@@ -30,8 +32,8 @@ gem 'puma', '~> 3.0'
 # gem 'rack-cors'
 
 group :test do
-  gem 'shoulda-matchers'
   gem 'rails-controller-testing'
+  gem 'shoulda-matchers'
 end
 
 gem 'rspec-rails', '~> 3.8', group: %i[development test production]
@@ -41,17 +43,18 @@ group :development, :test do
   gem 'byebug', platform: :mri
   gem 'listen', '~> 3.0.5'
   # Factory Bot
-  gem "factory_bot_rails"
+  gem 'factory_bot_rails'
 
   # Faker
   gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
 end
 
 group :development do
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
+  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring  gem 'spring'
+  gem 'rubocop-rspec', require: false
   gem 'spring-commands-rspec'
+  gem 'spring-watcher-listen', '~> 2.0.0'
+
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -61,8 +64,8 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 gem 'devise', '~> 4.7', '>= 4.7.1'
 
 # Devise Token Auth
-gem 'omniauth'
 gem 'devise_token_auth'
+gem 'omniauth'
 
 # Active Model Serializer for JSON API pattern
 gem 'active_model_serializers', '~> 0.10.0'
@@ -74,14 +77,14 @@ gem 'rack-cors'
 gem 'ransack', github: 'activerecord-hackery/ransack'
 
 # Pagination
-gem 'kaminari'
 gem 'api-pagination'
+gem 'kaminari'
 
 # Rails 5.2
 gem 'bootsnap', '~> 1.4', '>= 1.4.4'
 
 # Webpacker
-gem "webpacker"
+gem 'webpacker'
 
 group :production do
   gem 'sendgrid-ruby'

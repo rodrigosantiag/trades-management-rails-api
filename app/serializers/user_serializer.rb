@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Serializer for User model
 class UserSerializer < ActiveModel::Serializer
   attributes :id, :name, :risk, :email
 

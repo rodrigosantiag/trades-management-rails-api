@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Serializer for Broker model
 class BrokerSerializer < ActiveModel::Serializer
   attributes :id, :name, :user_id, :accounts
 

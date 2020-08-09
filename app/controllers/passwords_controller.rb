@@ -1,3 +1,4 @@
+# Passwords controllers on application's scope rewrite Devise::PasswordsController necessary methods
 class PasswordsController < Devise::PasswordsController
 
   def edit
