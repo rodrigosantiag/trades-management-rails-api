@@ -20,16 +20,16 @@ module Api
       def show
         trade = Trade.find(params[:id])
 
-        render json: trade, status: 200
+        render jsonapi: trade, status: 200
       end
 
       def create
         trade = current_user.trades.build(trade_params)
 
         if trade.save
-          render json: trade, status: 201
+          render jsonapi: trade, status: 201
         else
-          render json: { errors: trade.errors }, status: 422
+          render jsonapi_errors: trade.errors, status: 422
         end
       end
 
@@ -37,9 +37,9 @@ module Api
         trade = current_user.trades.find(params[:id])
 
         if trade.update(trade_params)
-          render json: trade, status: 200
+          render jsonapi: trade, status: 200
         else
-          render json: { errors: trade.errors }, status: 422
+          render jsonapi_errors: trade.errors, status: 422
         end
       end
 
@@ -55,7 +55,7 @@ module Api
         if params[:q][:account_id_eq]
           get_trades_by_params(params[:q])
         else
-          render json: { errors: { message: 'You must select a Broker Account' } }, status: 422
+          render jsonapi_errors: { message: 'You must select a Broker Account' }, status: 422
         end
       end
 
@@ -70,13 +70,13 @@ module Api
 
         trades = account.trades.order('id DESC').page(params[:page]).per(10)
 
-        paginate json: trades, per_page: 10, status: 200, meta: { total: trades.total_count }
+        paginate jsonapi: trades, per_page: 10, status: 200, meta: { total: trades.total_count }
       end
 
       def get_trades_by_params params
         trades = current_user.trades.ransack(params).result
 
-        render json: trades, status: 200
+        render jsonapi: trades, status: 200
       end
 
     end

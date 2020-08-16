@@ -9,11 +9,11 @@ RSpec.describe 'Account API', type: :request do
   let!(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
-      'Accept' => 'application/vnd.binaryoptionsmanagement.v1',
-      'Content-Type' => Mime[:json].to_s,
-      'access-token' => auth_data['access-token'],
-      'uid' => auth_data['uid'],
-      'client' => auth_data['client']
+        'Accept' => 'application/vnd.binaryoptionsmanagement.v1',
+        'Content-Type' => Mime[:json].to_s,
+        'access-token' => auth_data['access-token'],
+        'uid' => auth_data['uid'],
+        'client' => auth_data['client']
     }
   end
   let!(:broker) { create(:broker, user_id: user.id) }
@@ -27,7 +27,7 @@ RSpec.describe 'Account API', type: :request do
       end
 
       it 'return status code 200' do
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(:ok)
       end
 
       it 'return a list of broker accounts from database' do
@@ -45,9 +45,9 @@ RSpec.describe 'Account API', type: :request do
       end
 
       it 'return the accounts for broker' do
-        accounts = json_body[:data].map { |account| account[:attributes][:"broker-id"].to_i }
+        accounts = json_body[:data].map { |account| account[:id].to_i }
 
-        expect(accounts).to eq([account_1.broker_id, account_2.broker_id])
+        expect(accounts).to eq([account_1.id, account_2.id])
       end
     end
   end
@@ -60,7 +60,7 @@ RSpec.describe 'Account API', type: :request do
     end
 
     it 'return status code 200' do
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'return data for account' do
@@ -77,7 +77,7 @@ RSpec.describe 'Account API', type: :request do
       let(:account_params) { attributes_for(:account, broker_id: broker.id) }
 
       it 'return status code 201' do
-        expect(response).to have_http_status(201)
+        expect(response).to have_http_status(:created)
       end
 
       it 'save new account on database' do
@@ -85,15 +85,11 @@ RSpec.describe 'Account API', type: :request do
       end
 
       it 'return data for the new account' do
-        expect(json_body[:data][:attributes][:'type-account']).to eq(account_params[:type_account])
+        expect(json_body[:data][:attributes][:type_account]).to eq(account_params[:type_account])
       end
 
-      it 'associate account to broker' do
-        expect(json_body[:data][:attributes][:'broker-id']).to eq(broker.id)
-      end
-
-      it 'associate account to user' do
-        expect(json_body[:data][:attributes][:'user-id']).to eq(user.id)
+      it 'associate account to broker and user' do
+        expect(json_body[:data]).to have_relationships(:broker, :user)
       end
     end
 
@@ -101,7 +97,7 @@ RSpec.describe 'Account API', type: :request do
       let(:account_params) { attributes_for(:account, currency: nil) }
 
       it 'return status 422' do
-        expect(response).to have_http_status(422)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'return errors' do
@@ -124,9 +120,8 @@ RSpec.describe 'Account API', type: :request do
     context 'when params are valid' do
       let(:account_params) { {currency: 'BRL'} }
 
-      # TODO: change all tests to jsonapi format
       it 'return status code 200' do
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(:ok)
       end
 
       it 'return updated account data' do
@@ -143,7 +138,7 @@ RSpec.describe 'Account API', type: :request do
       let(:account_params) { {currency: ' '} }
 
       it 'return status code 422' do
-        expect(response).to have_http_status(422)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'return errors' do
@@ -165,7 +160,7 @@ RSpec.describe 'Account API', type: :request do
     end
 
     it 'return status 204' do
-      expect(response).to have_http_status(204)
+      expect(response).to have_http_status(:no_content)
     end
 
     it 'delete account from database' do

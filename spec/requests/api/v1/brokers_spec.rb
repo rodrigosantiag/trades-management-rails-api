@@ -23,7 +23,7 @@ RSpec.describe 'Broker API', type: :request do
       end
 
       it 'return status code 200' do
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(:ok)
       end
 
       it 'return list of brokers from database' do
@@ -54,7 +54,7 @@ RSpec.describe 'Broker API', type: :request do
     before {get "/brokers/#{broker.id}", params: {}, headers: headers}
 
     it 'return status code 200' do
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'return broker data' do
@@ -71,7 +71,7 @@ RSpec.describe 'Broker API', type: :request do
       let(:broker_params) {attributes_for(:broker)}
 
       it 'return status code 201' do
-        expect(response).to have_http_status(201)
+        expect(response).to have_http_status(:created)
       end
 
       it 'save the broker in database' do
@@ -91,7 +91,7 @@ RSpec.describe 'Broker API', type: :request do
       let(:broker_params) {attributes_for(:broker, name: ' ')}
 
       it 'return status code 422' do
-        expect(response).to have_http_status(422)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'not save broker in database' do
@@ -115,7 +115,7 @@ RSpec.describe 'Broker API', type: :request do
       let(:broker_params) {{name: 'New Broker Name'}}
 
       it 'return status code 200' do
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(:ok)
       end
 
       it 'save broker updated on database' do
@@ -131,7 +131,7 @@ RSpec.describe 'Broker API', type: :request do
       let(:broker_params) {{name: ' '}}
 
       it 'return status code 422' do
-        expect(response).to have_http_status(422)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'not save invalid broker in database' do
@@ -152,7 +152,7 @@ RSpec.describe 'Broker API', type: :request do
     end
 
     it 'return status code 204' do
-      expect(response).to have_http_status(204)
+      expect(response).to have_http_status(:no_content)
     end
 
     it 'remove broker from database' do
