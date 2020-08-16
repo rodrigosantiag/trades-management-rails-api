@@ -124,7 +124,7 @@ RSpec.describe 'Account API', type: :request do
     context 'when params are valid' do
       let(:account_params) { {currency: 'BRL'} }
 
-      # Continue to refactor according to Rubocop
+      # TODO: change all tests to jsonapi format
       it 'return status code 200' do
         expect(response).to have_http_status(200)
       end

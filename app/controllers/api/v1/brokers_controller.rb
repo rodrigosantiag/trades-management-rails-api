@@ -10,22 +10,22 @@ module Api
       def index
         brokers = current_user.brokers.order(:name)
 
-        render json: brokers, status: 200
+        render jsonapi: brokers, status: 200
       end
 
       def show
         broker = current_user.brokers.find(params[:id])
 
-        render json: broker, include: 'accounts', status: 200
+        render jsonapi: broker, include: 'accounts', status: 200
       end
 
       def create
         broker = current_user.brokers.build(broker_params)
 
         if broker.save
-          render json: broker, status: 201
+          render jsonapi: broker, status: 201
         else
-          render json: { errors: broker.errors }, status: 422
+          render jsonapi_errors: broker.errors, status: 422
         end
       end
 
@@ -33,9 +33,9 @@ module Api
         broker = current_user.brokers.find(params[:id])
 
         if broker.update(broker_params)
-          render json: broker, status: 200
+          render jsonapi: broker, status: 200
         else
-          render json: { errors: broker.errors }, status: 422
+          render jsonapi_errors: broker.errors, status: 422
         end
       end
 

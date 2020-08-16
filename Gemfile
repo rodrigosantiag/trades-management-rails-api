@@ -41,6 +41,8 @@ gem 'rspec-rails', '~> 3.8', group: %i[development test production]
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
+  # JSON API for rspec
+  gem 'jsonapi-rspec'
   gem 'listen', '~> 3.0.5'
   # Factory Bot
   gem 'factory_bot_rails'
@@ -68,7 +70,10 @@ gem 'devise_token_auth'
 gem 'omniauth'
 
 # Active Model Serializer for JSON API pattern
-gem 'active_model_serializers', '~> 0.10.0'
+# gem 'active_model_serializers', '~> 0.10.0'
+
+# JSON API Rails
+gem 'jsonapi-rails'
 
 # CORS
 gem 'rack-cors'
