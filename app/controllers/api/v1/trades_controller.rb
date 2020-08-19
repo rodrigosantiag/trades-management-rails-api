@@ -11,7 +11,7 @@ module Api
         params[:page] ||= 1
 
         if params[:account_id]
-          get_trades_account(params[:account_id])
+          get_trades_account(params[:account_id], params[:page])
         else
           get_trades_by_params(params[:q])
         end
@@ -65,10 +65,10 @@ module Api
         params.require(:trade).permit(:value, :profit, :result, :result_balance, :account_id, :type_trade, :strategy_id)
       end
 
-      def get_trades_account account_id
+      def get_trades_account account_id, page
         account = current_user.accounts.find account_id
 
-        trades = account.trades.order('id DESC').page(params[:page]).per(10)
+        trades = account.trades.order('id DESC').page(page).per(10)
 
         paginate jsonapi: trades, per_page: 10, status: 200, meta: { total: trades.total_count }
       end
