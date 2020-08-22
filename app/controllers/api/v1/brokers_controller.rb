@@ -10,15 +10,14 @@ module Api
       def index
         brokers = current_user.brokers.order(:name)
 
-        # TODO: standardize account component to jsonapi response
         render jsonapi: brokers, include: :accounts, fields: { accounts: %i[type_account currency initial_balance
-        current_balance broker_id] }, status: 200
+                                                                            current_balance broker_id] }, status: 200
       end
 
       def show
         broker = current_user.brokers.find(params[:id])
 
-        render jsonapi: broker, include: 'accounts', status: 200
+        render jsonapi: broker, status: 200
       end
 
       def create
@@ -35,7 +34,8 @@ module Api
         broker = current_user.brokers.find(params[:id])
 
         if broker.update(broker_params)
-          render jsonapi: broker, status: 200
+          render jsonapi: broker, include: :accounts, fields: { accounts: %i[type_account currency initial_balance
+                                                                             current_balance broker_id] }, status: 200
         else
           render jsonapi_errors: broker.errors, status: 422
         end
