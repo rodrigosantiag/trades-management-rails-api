@@ -1,11 +1,8 @@
 class SerializableAccount < JSONAPI::Serializable::Resource
   type 'accounts'
-  attribute :broker
-  attribute :broker_id
   attribute :created_date_formatted do
     @object.created_at.strftime('%m/%d/%Y %H:%M:%S')
   end
-  attribute :user_id
   attribute :account_risk do
     @object.user.risk
   end

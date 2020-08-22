@@ -9,7 +9,7 @@ module Api
       def index
         accounts = current_user.accounts.ransack(params[:q]).result
 
-        render jsonapi: accounts, status: 200
+        render jsonapi: accounts, include: :broker, fields: { broker: [:name] }, status: 200
       end
 
       def show
@@ -22,7 +22,7 @@ module Api
         account = current_user.accounts.build(account_params)
 
         if account.save
-          render jsonapi: account, status: 201
+          render jsonapi: account, include: :broker, fields: { broker: [:name] }, status: 201
         else
           render jsonapi_errors: account.errors, status: 422
         end
@@ -32,7 +32,7 @@ module Api
         account = current_user.accounts.find(params[:id])
 
         if account.update(account_params)
-          render jsonapi: account, status: 200
+          render jsonapi: account, include: :broker, fields: { broker: [:name] }, status: 200
         else
           render jsonapi_errors: account.errors, status: 422
         end
