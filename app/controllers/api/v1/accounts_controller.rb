@@ -15,7 +15,7 @@ module Api
       def show
         account = current_user.accounts.find_by_id(params[:id])
 
-        render jsonapi: account, include: %i[broker trades], status: 200
+        render jsonapi: account, include: [:broker, trades: [:strategy]], status: 200
       end
 
       def create

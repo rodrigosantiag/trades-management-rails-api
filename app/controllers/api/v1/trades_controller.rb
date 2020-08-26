@@ -70,13 +70,13 @@ module Api
 
         trades = account.trades.order('id DESC').page(page).per(10)
 
-        paginate jsonapi: trades, per_page: 10, status: 200, meta: { total: trades.total_count }
+        paginate jsonapi: trades, include: :strategy, per_page: 10, status: 200, meta: { total: trades.total_count }
       end
 
       def get_trades_by_params params
         trades = current_user.trades.ransack(params).result
 
-        render jsonapi: trades, status: 200
+        render jsonapi: trades, include: :strategy, status: 200
       end
 
     end
