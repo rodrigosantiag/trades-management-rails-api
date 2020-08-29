@@ -15,5 +15,9 @@ class SerializableAccount < JSONAPI::Serializable::Resource
 
   has_one :broker
   has_one :user
-  has_many :trades
+  has_many :trades do
+    meta do
+      { general_results: Reports::TradeReportService.new(@object.trades).get_report_results }
+    end
+  end
 end
