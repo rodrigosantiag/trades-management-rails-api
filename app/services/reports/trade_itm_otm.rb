@@ -4,11 +4,10 @@ module Reports
   # Class responsible for trade results calculations
   class TradeItmOtm
 
-    # Initilize object setting trades to be used on calculations
+    # Initialize object setting trades to be used on calculations and number of ITM's, OTM's, total ITM percent and OTM
+    # percent
     #
     # @param trades [Array]
-    #
-    # @return [Array]
     def initialize(trades)
       @trades = trades
       @itm = 0
