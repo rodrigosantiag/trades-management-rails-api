@@ -17,7 +17,7 @@ class SerializableAccount < JSONAPI::Serializable::Resource
   has_one :user
   has_many :trades do
     meta do
-      { general_results: Reports::TradeReportService.new(@object.trades).get_report_results }
+      { general_results: Reports::TradeItmOtm.new(@object.trades).call }
     end
   end
 end

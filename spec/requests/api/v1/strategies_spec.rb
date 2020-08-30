@@ -63,7 +63,7 @@ RSpec.describe 'Strategy API', type: :request do
 
   describe 'POST /strategies' do
     before do
-      post '/strategies', params: {strategy: strategy_params}.to_json, headers: headers
+      post '/strategies', params: { strategy: strategy_params }.to_json, headers: headers
     end
 
     context 'when params are valid' do
@@ -107,11 +107,11 @@ RSpec.describe 'Strategy API', type: :request do
     let!(:strategy) { create(:strategy, user_id: user.id) }
 
     before do
-      put "/strategies/#{strategy.id}", params: {strategy: strategy_params}.to_json, headers: headers
+      put "/strategies/#{strategy.id}", params: { strategy: strategy_params }.to_json, headers: headers
     end
 
     context 'when params are valid' do
-      let(:strategy_params) { {name: 'New strategy name'} }
+      let(:strategy_params) { { name: 'New strategy name' } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(:ok)
@@ -127,7 +127,7 @@ RSpec.describe 'Strategy API', type: :request do
     end
 
     context 'when parameters are not valid' do
-      let(:strategy_params) { {name: ' '} }
+      let(:strategy_params) { { name: ' ' } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(:unprocessable_entity)

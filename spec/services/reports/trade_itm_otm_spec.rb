@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Trade Report Service', type: :helper do
+RSpec.describe 'Trade ITM OTM Service', type: :helper do
 
   let!(:user) { create(:user) }
   let!(:auth_data) { user.create_new_auth_token }
@@ -26,13 +26,13 @@ RSpec.describe 'Trade Report Service', type: :helper do
     let(:trade4) { create(:trade, strategy_id: strategy.id, account_id: account.id, result: false) }
 
     it 'return itm = 50' do
-      result = Reports::TradeReportService.new([trade1, trade2, trade3, trade4]).get_report_results
+      result = Reports::TradeItmOtm.new([trade1, trade2, trade3, trade4]).call
 
       expect(result[:itm]).to eq(50)
     end
 
     it 'return otm = 50' do
-      result = Reports::TradeReportService.new([trade1, trade2, trade3, trade4]).get_report_results
+      result = Reports::TradeItmOtm.new([trade1, trade2, trade3, trade4]).call
 
       expect(result[:otm]).to eq(50)
     end
@@ -51,15 +51,15 @@ RSpec.describe 'Trade Report Service', type: :helper do
     let(:trade10) { create(:trade, strategy_id: strategy.id, account_id: account.id, result: true) }
 
     it 'return itm = 60' do
-      result = Reports::TradeReportService.new([trade1, trade2, trade3, trade4, trade5, trade6, trade7, trade8,
-                                                trade9, trade10]).get_report_results
+      result = Reports::TradeItmOtm.new([trade1, trade2, trade3, trade4, trade5, trade6, trade7, trade8,
+                                                   trade9, trade10]).call
 
       expect(result[:itm]).to eq(60)
     end
 
     it 'return otm = 40' do
-      result = Reports::TradeReportService.new([trade1, trade2, trade3, trade4, trade5, trade6, trade7, trade8,
-                                                trade9, trade10]).get_report_results
+      result = Reports::TradeItmOtm.new([trade1, trade2, trade3, trade4, trade5, trade6, trade7, trade8,
+                                                   trade9, trade10]).call
 
       expect(result[:otm]).to eq(40)
     end
