@@ -24,8 +24,6 @@ module Reports
       end
 
       result
-
-    #  TODO: write tests for this service
     end
   end
 end

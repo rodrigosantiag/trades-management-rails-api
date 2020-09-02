@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Trade ITM OTM Service', type: :helper do
+RSpec.describe 'Trade ITM OTM Service' do
 
   let!(:user) { create(:user) }
   let!(:auth_data) { user.create_new_auth_token }
@@ -25,15 +25,13 @@ RSpec.describe 'Trade ITM OTM Service', type: :helper do
     let(:trade3) { create(:trade, strategy_id: strategy.id, account_id: account.id, result: false) }
     let(:trade4) { create(:trade, strategy_id: strategy.id, account_id: account.id, result: false) }
 
-    it 'return itm = 50' do
-      result = Reports::TradeItmOtm.new([trade1, trade2, trade3, trade4]).call
+    let(:result) { Reports::TradeItmOtm.new([trade1, trade2, trade3, trade4]).call }
 
+    it 'return itm = 50' do
       expect(result[:itm]).to eq(50)
     end
 
     it 'return otm = 50' do
-      result = Reports::TradeItmOtm.new([trade1, trade2, trade3, trade4]).call
-
       expect(result[:otm]).to eq(50)
     end
   end
