@@ -27,13 +27,9 @@ RSpec.describe 'Trade ITM OTM Service' do
 
     let(:result) { Reports::TradeItmOtm.new([trade1, trade2, trade3, trade4]).call }
 
-    it 'return itm = 50' do
-      expect(result[:itm]).to eq(50)
-    end
+    it { expect(result[:itm]).to eq(50) }
 
-    it 'return otm = 50' do
-      expect(result[:otm]).to eq(50)
-    end
+    it { expect(result[:otm]).to eq(50) }
   end
 
   context 'when account has 60/40 results' do
@@ -48,18 +44,13 @@ RSpec.describe 'Trade ITM OTM Service' do
     let(:trade9) { create(:trade, strategy_id: strategy.id, account_id: account.id, result: false) }
     let(:trade10) { create(:trade, strategy_id: strategy.id, account_id: account.id, result: true) }
 
-    it 'return itm = 60' do
-      result = Reports::TradeItmOtm.new([trade1, trade2, trade3, trade4, trade5, trade6, trade7, trade8,
-                                                   trade9, trade10]).call
-
-      expect(result[:itm]).to eq(60)
+    let(:result) do
+      Reports::TradeItmOtm.new([trade1, trade2, trade3, trade4, trade5, trade6, trade7, trade8,
+                                trade9, trade10]).call
     end
 
-    it 'return otm = 40' do
-      result = Reports::TradeItmOtm.new([trade1, trade2, trade3, trade4, trade5, trade6, trade7, trade8,
-                                                   trade9, trade10]).call
+    it { expect(result[:itm]).to eq(60) }
 
-      expect(result[:otm]).to eq(40)
-    end
+    it { expect(result[:otm]).to eq(40) }
   end
 end
