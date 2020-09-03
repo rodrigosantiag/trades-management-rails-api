@@ -51,7 +51,7 @@ module Api
       end
 
       def analytics
-        # TODO: format api response to include extra data (as ITM and OTM rate, monthly result, etc.)
+        # TODO: implement reports on frontend
         if params[:q][:account_id_eq]
           get_trades_by_params(params[:q])
         else
@@ -76,7 +76,12 @@ module Api
       def get_trades_by_params params
         trades = current_user.trades.ransack(params).result
 
-        render jsonapi: trades, include: :strategy, status: 200
+        itm_otm_general = Reports::TradeItmOtm.new(trades).call
+
+        itm_otm_monthly = Reports::TradeItmOtmMonthly.new(trades).call
+
+        render jsonapi: trades, include: :strategy, meta: { itm_otm_general: itm_otm_general,
+                                                            itm_otm_monthly: itm_otm_monthly }, status: 200
       end
 
     end

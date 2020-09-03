@@ -5,7 +5,7 @@ module Reports
   class TradeItmOtmMonthly
     # Initialize service object with array of trades
     #
-    # @param trades [Hash]
+    # @param trades [Array]
     def initialize(trades)
       @trades = trades
     end
