@@ -93,6 +93,10 @@ RSpec.describe 'Trade API', type: :request do
         expect(json_body[:data]).to have_relationships(:account, :user, :strategy)
       end
 
+      it 'include strategy' do
+        expect(json_body[:included]).to include(have_type('strategies'))
+      end
+
       it 'update account balance' do
         trade_account = Account.find(account.id)
         expect(trade_account.current_balance).to eq(account.initial_balance +
@@ -140,6 +144,10 @@ RSpec.describe 'Trade API', type: :request do
       it 'save updated data on database' do
         saved_trade = Trade.find(trade.id)
         expect(saved_trade.profit).to eq(trade_params[:profit])
+      end
+
+      it 'include strategy' do
+        expect(json_body[:included]).to include(have_type('strategies'))
       end
 
       it 'update account balance' do

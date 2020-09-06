@@ -27,7 +27,7 @@ module Api
         trade = current_user.trades.build(trade_params)
 
         if trade.save
-          render jsonapi: trade, status: 201
+          render jsonapi: trade, include: :strategy, status: 201
         else
           render jsonapi_errors: trade.errors, status: 422
         end
@@ -37,7 +37,7 @@ module Api
         trade = current_user.trades.find(params[:id])
 
         if trade.update(trade_params)
-          render jsonapi: trade, status: 200
+          render jsonapi: trade, include: :strategy, status: 200
         else
           render jsonapi_errors: trade.errors, status: 422
         end
