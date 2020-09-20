@@ -89,7 +89,7 @@ module Api
         unless params[:created_at_gteq].blank?
           params[:created_at_gteq] = params[:created_at_gteq].to_datetime.beginning_of_day
         end
-        unless params[:created_lt_gteq].blank?
+        unless params[:created_at_lteq].blank?
           params[:created_at_lteq] = params[:created_at_lteq].to_datetime.end_of_day
         end
         params
