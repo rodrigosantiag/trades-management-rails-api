@@ -1,49 +1,56 @@
-class Api::V1::AccountsController < ApplicationController
-  before_action :authenticate_user!
+# frozen_string_literal: true
 
-  def index
-    accounts = current_user.accounts.ransack(params[:q]).result
+module Api
+  module V1
+    # AccountsController is the class responsible for entire CRUD and search of Account model
+    class AccountsController < ApplicationController
+      before_action :authenticate_user!
 
-    render json: accounts, status: 200
-  end
+      def index
+        accounts = current_user.accounts.ransack(params[:q]).result
 
-  def show
-    account = current_user.accounts.find_by_id(params[:id])
+        render jsonapi: accounts, include: :broker, fields: { broker: [:name] }, status: 200
+      end
 
-    render json: account, include: 'broker', status: 200
-  end
+      def show
+        account = current_user.accounts.find_by_id(params[:id])
 
-  def create
-    account = current_user.accounts.build(account_params)
+        render jsonapi: account, include: [:broker, trades: [:strategy]], status: 200
+      end
 
-    if account.save
-      render json: account, status: 201
-    else
-      render json: {errors: account.errors}, status: 422
+      def create
+        account = current_user.accounts.build(account_params)
+
+        if account.save
+          render jsonapi: account, include: :broker, fields: { broker: [:name] }, status: 201
+        else
+          render jsonapi_errors: account.errors, status: 422
+        end
+      end
+
+      def update
+        account = current_user.accounts.find(params[:id])
+
+        if account.update(account_params)
+          render jsonapi: account, include: :broker, fields: { broker: [:name] }, status: 200
+        else
+          render jsonapi_errors: account.errors, status: 422
+        end
+      end
+
+      def destroy
+        account = current_user.accounts.find(params[:id])
+
+        account.destroy
+        head 204
+      end
+
+      private
+
+      def account_params
+        params.require(:account).permit(:type_account, :currency, :initial_balance, :current_balance, :broker_id)
+      end
+
     end
   end
-
-  def update
-    account = current_user.accounts.find(params[:id])
-
-    if account.update(account_params)
-      render json: account, status: 200
-    else
-      render json: {errors: account.errors}, status: 422
-    end
-  end
-
-  def destroy
-    account = current_user.accounts.find(params[:id])
-
-    account.destroy
-    head 204
-  end
-
-  private
-
-  def account_params
-    params.require(:account).permit(:type_account, :currency, :initial_balance, :current_balance, :broker_id)
-  end
-
 end

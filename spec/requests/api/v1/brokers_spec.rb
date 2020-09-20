@@ -22,11 +22,11 @@ RSpec.describe 'Broker API', type: :request do
         get '/brokers', params: {}, headers: headers
       end
 
-      it 'should return status code 200' do
-        expect(response).to have_http_status(200)
+      it 'return status code 200' do
+        expect(response).to have_http_status(:ok)
       end
 
-      it 'should return list of brokers from database' do
+      it 'return list of brokers from database' do
         expect(json_body[:data].count).to eq(3)
       end
     end
@@ -40,7 +40,7 @@ RSpec.describe 'Broker API', type: :request do
         get '/brokers', params: {}, headers: headers
       end
 
-      it 'should return ordered by name' do
+      it 'return ordered by name' do
         returned_brokers = json_body[:data].map {|t| t[:attributes][:name]}
 
         expect(returned_brokers).to eq([broker2.name, broker3.name, broker1.name])
@@ -53,11 +53,11 @@ RSpec.describe 'Broker API', type: :request do
 
     before {get "/brokers/#{broker.id}", params: {}, headers: headers}
 
-    it 'should return status code 200' do
-      expect(response).to have_http_status(200)
+    it 'return status code 200' do
+      expect(response).to have_http_status(:ok)
     end
 
-    it 'should return broker data' do
+    it 'return broker data' do
       expect(json_body[:data][:attributes][:name]).to eq(broker.name)
     end
   end
@@ -70,36 +70,36 @@ RSpec.describe 'Broker API', type: :request do
     context 'when params are valid' do
       let(:broker_params) {attributes_for(:broker)}
 
-      it 'should return status code 201' do
-        expect(response).to have_http_status(201)
+      it 'return status code 201' do
+        expect(response).to have_http_status(:created)
       end
 
-      it 'should save the broker in database' do
+      it 'save the broker in database' do
         expect(Broker.find_by(name: broker_params[:name])).not_to be_nil
       end
 
-      it 'should return the broker data' do
+      it 'return the broker data' do
         expect(json_body[:data][:attributes][:name]).to eq(broker_params[:name])
       end
 
-      it 'should assign the broker to the user' do
-        expect(json_body[:data][:attributes][:'user-id']).to eq(user.id)
+      it 'assign the broker to the user' do
+        expect(json_body[:data]).to have_relationship(:user)
       end
     end
 
     context 'when params are not valid' do
       let(:broker_params) {attributes_for(:broker, name: ' ')}
 
-      it 'should return status code 422' do
-        expect(response).to have_http_status(422)
+      it 'return status code 422' do
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
-      it 'should not save broker in database' do
+      it 'not save broker in database' do
         expect(Broker.find_by(name: broker_params[:name])).to be_nil
       end
 
-      it 'should return error key for name' do
-        expect(json_body[:errors]).to have_key(:name)
+      it 'return errors' do
+        expect(json_body).to have_key(:errors)
       end
     end
   end
@@ -114,15 +114,15 @@ RSpec.describe 'Broker API', type: :request do
     context 'when params are valid' do
       let(:broker_params) {{name: 'New Broker Name'}}
 
-      it 'should return status code 200' do
-        expect(response).to have_http_status(200)
+      it 'return status code 200' do
+        expect(response).to have_http_status(:ok)
       end
 
-      it 'should save broker updated on database' do
+      it 'save broker updated on database' do
         expect(Broker.find_by(name: broker_params[:name])).not_to be_nil
       end
 
-      it 'should return updated broker' do
+      it 'return updated broker' do
         expect(json_body[:data][:attributes][:name]).to eq(broker_params[:name])
       end
     end
@@ -130,16 +130,16 @@ RSpec.describe 'Broker API', type: :request do
     context 'when params are not valid' do
       let(:broker_params) {{name: ' '}}
 
-      it 'should return status code 422' do
-        expect(response).to have_http_status(422)
+      it 'return status code 422' do
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
-      it 'should not save invalid broker in database' do
+      it 'not save invalid broker in database' do
         expect(Broker.find_by(name: broker_params[:name])).to be_nil
       end
 
-      it 'should return :name key in errors' do
-        expect(json_body[:errors]).to have_key(:name)
+      it 'return errors' do
+        expect(json_body).to have_key(:errors)
       end
     end
   end
@@ -151,11 +151,11 @@ RSpec.describe 'Broker API', type: :request do
       delete "/brokers/#{broker.id}", params: {}, headers: headers
     end
 
-    it 'should return status code 204' do
-      expect(response).to have_http_status(204)
+    it 'return status code 204' do
+      expect(response).to have_http_status(:no_content)
     end
 
-    it 'should remove broker from database' do
+    it 'remove broker from database' do
       expect {Broker.find(broker.id)}.to raise_error(ActiveRecord::RecordNotFound)
     end
 

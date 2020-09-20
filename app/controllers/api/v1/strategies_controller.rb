@@ -1,50 +1,58 @@
-class Api::V1::StrategiesController < ApplicationController
-  before_action :authenticate_user!
+# frozen_string_literal: true
 
-  def index
-    params[:page] ||= 1
+module Api
+  module V1
+    # StrategiesController is a class responsible for the entire CRUD of Strategy Model
+    class StrategiesController < ApplicationController
+      before_action :authenticate_user!
 
-    strategies = current_user.strategies.order(:name).ransack(params[:q]).result
+      def index
+        params[:page] ||= 1
 
-    render json: strategies, status: 200
-  end
+        strategies = current_user.strategies.order(:name).ransack(params[:q]).result
 
-  def show
-    strategy = current_user.strategies.find params[:id]
+        render jsonapi: strategies, status: 200
+      end
 
-    render json: strategy, status: 200
-  end
+      def show
+        strategy = current_user.strategies.find params[:id]
 
-  def create
-    strategy = current_user.strategies.build(strategy_params)
+        render jsonapi: strategy, status: 200
+      end
 
-    if strategy.save
-      render json: strategy, status: 201
-    else
-      render json: {errors: strategy.errors}, status: 422
+      def create
+        strategy = current_user.strategies.build(strategy_params)
+
+        if strategy.save
+          render jsonapi: strategy, status: 201
+        else
+          render jsonapi_errors: strategy.errors, status: 422
+        end
+      end
+
+      def update
+        strategy = current_user.strategies.find(params[:id])
+
+        if strategy.update(strategy_params)
+          render jsonapi: strategy, status: 200
+        else
+          render jsonapi_errors: strategy.errors, status: 422
+        end
+      end
+
+      def destroy
+        strategy = current_user.strategies.find params[:id]
+
+        strategy.destroy
+
+        head 204
+      end
+
+      private
+
+      def strategy_params
+        params.require(:strategy).permit(:name)
+      end
     end
-  end
-
-  def update
-    strategy = current_user.strategies.find(params[:id])
-
-    if strategy.update(strategy_params)
-      render json: strategy, status: 200
-    else
-      render json: {errors: strategy.errors}, status: 422
-    end
-  end
-
-  def destroy
-    strategy = current_user.strategies.find params[:id]
-
-    strategy.destroy
-
-    head 204
-  end
-
-  private
-  def strategy_params
-    params.require(:strategy).permit(:name)
   end
 end

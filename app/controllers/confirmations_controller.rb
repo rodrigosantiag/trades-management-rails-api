@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Confirmations controllers on application's scope rewrite Devise::ConfirmationsController necessary methods
 class ConfirmationsController < Devise::ConfirmationsController
   protected
 

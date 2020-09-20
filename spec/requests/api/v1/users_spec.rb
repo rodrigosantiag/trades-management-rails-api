@@ -21,12 +21,12 @@ RSpec.describe 'User API', type: :request do
         get '/auth/validate_token', params: {}, headers: headers
       end
 
-      it 'should return user id' do
+      it 'return user id' do
         expect(json_body[:data][:id].to_i).to eq(user.id)
       end
 
-      it 'should return status code 200' do
-        expect(response).to have_http_status(200)
+      it 'return status code 200' do
+        expect(response).to have_http_status(:ok)
       end
     end
 
@@ -36,8 +36,8 @@ RSpec.describe 'User API', type: :request do
         get '/auth/validate_token', params: {}, headers: headers
       end
 
-      it 'should return status code 401' do
-        expect(response).to have_http_status(401)
+      it 'return status code 401' do
+        expect(response).to have_http_status(:unauthorized)
       end
     end
   end
@@ -50,11 +50,11 @@ RSpec.describe 'User API', type: :request do
     context 'when request params are valid' do
       let(:user_params) {attributes_for(:user)}
 
-      it 'should return status code 200' do
-        expect(response).to have_http_status(200)
+      it 'return status code 200' do
+        expect(response).to have_http_status(:ok)
       end
 
-      it 'should return user attributes as json data' do
+      it 'return user attributes as json data' do
         expect(json_body[:data][:email]).to eq(user_params[:email])
       end
     end
@@ -63,7 +63,7 @@ RSpec.describe 'User API', type: :request do
       let(:user_params) {attributes_for(:user, email: 'invalid_email@')}
 
       it 'returns status code 422' do
-        expect(response).to have_http_status(422)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'returns the json data for the errors' do
@@ -80,11 +80,11 @@ RSpec.describe 'User API', type: :request do
     context 'when user params are valid' do
       let(:user_params) {{email: 'new@email.com', name: 'John Doe', risk: 10}}
 
-      it 'should return status code 200' do
-        expect(response).to have_http_status(200)
+      it 'return status code 200' do
+        expect(response).to have_http_status(:ok)
       end
 
-      it 'should reutrn updated user' do
+      it 'reutrn updated user' do
         expect(json_body[:data][:name]).to eq(user_params[:name])
         expect(json_body[:data][:email]).to eq(user_params[:email])
         expect(json_body[:data][:risk]).to eq(user_params[:risk])
@@ -94,11 +94,11 @@ RSpec.describe 'User API', type: :request do
     context 'when user params are invalid' do
       let(:user_params) {{email: 'new@invalid'}}
 
-      it 'should return status code 422' do
-        expect(response).to have_http_status(422)
+      it 'return status code 422' do
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
-      it 'should return key errors' do
+      it 'return key errors' do
         expect(json_body).to have_key(:errors)
       end
     end
@@ -109,11 +109,11 @@ RSpec.describe 'User API', type: :request do
       delete '/auth', params: {}, headers: headers
     end
 
-    it 'should return status code 200' do
-      expect(response).to have_http_status(200)
+    it 'return status code 200' do
+      expect(response).to have_http_status(:ok)
     end
 
-    it 'should remove user from database' do
+    it 'remove user from database' do
       expect(User.find_by(id: user.id)).to be_nil
     end
   end
@@ -126,11 +126,11 @@ RSpec.describe 'User API', type: :request do
     context 'when password is updated successfuly' do
       let(:user_params) {{password: 'abc12345', password_confirmation: 'abc12345'}}
 
-      it 'should return status code 200' do
-        expect(response).to have_http_status(200)
+      it 'return status code 200' do
+        expect(response).to have_http_status(:ok)
       end
 
-      it 'should have success key' do
+      it 'have success key' do
         expect(json_body).to have_key(:success)
       end
     end
@@ -138,11 +138,11 @@ RSpec.describe 'User API', type: :request do
     context 'when password and password confirmation do not match' do
       let(:user_params) {{password: 'abs1235', password_confirmation: '8945u3084'}}
 
-      it 'should return status code 422' do
-        expect(response).to have_http_status(422)
+      it 'return status code 422' do
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
-      it 'should have key errors' do
+      it 'have key errors' do
         expect(json_body).to have_key(:errors)
       end
     end
@@ -151,11 +151,11 @@ RSpec.describe 'User API', type: :request do
   describe 'GET /users/:id' do
     context 'when user is valid' do
       before {get "/users/#{user.id}", params: {}, headers: headers}
-      it 'should return status code 200' do
-        expect(response).to have_http_status(200)
+      it 'return status code 200' do
+        expect(response).to have_http_status(:ok)
       end
 
-      it 'should return user data' do
+      it 'return user data' do
         expect(json_body[:data][:attributes][:name]).to eq(user.name)
       end
     end
