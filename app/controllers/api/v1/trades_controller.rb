@@ -55,7 +55,7 @@ module Api
         if params[:q][:account_id_eq]
           get_trades_by_params(params[:q])
         else
-          render jsonapi_errors: { message: 'You must select a Broker Account' }, status: 422
+          render jsonapi_errors: {message: 'You must select a Broker Account'}, status: 422
         end
       end
 
@@ -70,18 +70,29 @@ module Api
 
         trades = account.trades.order('id DESC').page(page).per(10)
 
-        paginate jsonapi: trades, include: :strategy, per_page: 10, status: 200, meta: { total: trades.total_count }
+        paginate jsonapi: trades, include: :strategy, per_page: 10, status: 200, meta: {total: trades.total_count}
       end
 
       def get_trades_by_params params
+        params = beginning_and_end_of_day(params) unless params.blank?
         trades = current_user.trades.ransack(params).result
 
         itm_otm_general = Reports::TradeItmOtm.new(trades).call
 
         itm_otm_monthly = Reports::TradeItmOtmMonthly.new(trades).call
 
-        render jsonapi: trades, include: :strategy, meta: { itm_otm_general: itm_otm_general,
-                                                            itm_otm_monthly: itm_otm_monthly }, status: 200
+        render jsonapi: trades, include: :strategy, meta: {itm_otm_general: itm_otm_general,
+                                                           itm_otm_monthly: itm_otm_monthly}, status: 200
+      end
+
+      def beginning_and_end_of_day(params)
+        unless params[:created_at_gteq].blank?
+          params[:created_at_gteq] = params[:created_at_gteq].to_datetime.beginning_of_day
+        end
+        unless params[:created_lt_gteq].blank?
+          params[:created_at_lteq] = params[:created_at_lteq].to_datetime.end_of_day
+        end
+        params
       end
 
     end
