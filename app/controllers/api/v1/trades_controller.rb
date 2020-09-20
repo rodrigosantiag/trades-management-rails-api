@@ -51,7 +51,6 @@ module Api
       end
 
       def analytics
-        # TODO: implement reports on frontend
         if params[:q][:account_id_eq]
           get_trades_by_params(params[:q])
         else
