@@ -61,7 +61,8 @@ module Api
       private
 
       def trade_params
-        params.require(:trade).permit(:value, :profit, :result, :result_balance, :account_id, :type_trade, :strategy_id)
+        params.require(:trade).permit(:value, :profit, :result, :result_balance, :account_id, :type_trade,
+                                      :strategy_id)
       end
 
       def get_trades_account account_id, page
@@ -73,6 +74,7 @@ module Api
       end
 
       def get_trades_by_params params
+        params.merge!({type_trade_eq: 'T'})
         params = beginning_and_end_of_day(params) unless params.blank?
         trades = current_user.trades.ransack(params).result
 
