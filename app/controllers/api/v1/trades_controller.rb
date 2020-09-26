@@ -12,8 +12,10 @@ module Api
 
         if params[:account_id]
           get_trades_account(params[:account_id], params[:page])
-        else
+        elsif !params[:q].blank?
           get_trades_by_params(params[:q])
+        else
+          get_user_trades(params[:page])
         end
       end
 
@@ -54,7 +56,7 @@ module Api
         if params[:q][:account_id_eq]
           get_trades_by_params(params[:q])
         else
-          render jsonapi_errors: {message: 'You must select a Broker Account'}, status: 422
+          render jsonapi_errors: { message: 'You must select a Broker Account' }, status: 422
         end
       end
 
@@ -70,11 +72,11 @@ module Api
 
         trades = account.trades.order('id DESC').page(page).per(10)
 
-        paginate jsonapi: trades, include: :strategy, per_page: 10, status: 200, meta: {total: trades.total_count}
+        paginate jsonapi: trades, include: :strategy, per_page: 10, status: 200, meta: { total: trades.total_count }
       end
 
       def get_trades_by_params params
-        params.merge!({type_trade_eq: 'T'})
+        params.merge!({ type_trade_eq: 'T' })
         params = beginning_and_end_of_day(params) unless params.blank?
         trades = current_user.trades.ransack(params).result
 
@@ -82,8 +84,14 @@ module Api
 
         itm_otm_monthly = Reports::TradeItmOtmMonthly.new(trades).call
 
-        render jsonapi: trades, include: :strategy, meta: {itm_otm_general: itm_otm_general,
-                                                           itm_otm_monthly: itm_otm_monthly}, status: 200
+        render jsonapi: trades, include: :strategy, meta: { itm_otm_general: itm_otm_general,
+                                                            itm_otm_monthly: itm_otm_monthly }, status: 200
+      end
+
+      def get_user_trades(page)
+        trades = current_user.trades.order('id DESC').page(page).per(10)
+
+        paginate jsonapi: trades, include: :strategy, per_page: 10, status: 200, meta: { total: trades.total_count }
       end
 
       def beginning_and_end_of_day(params)
