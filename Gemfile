@@ -9,7 +9,7 @@ end
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '6.0'
+gem "rails", "~> 7.0.0"
 # Use pg as the database for Active Record (Development and Production)
 gem 'pg', '>= 0.18', '< 2.0', group: %i[development production]
 
@@ -36,7 +36,7 @@ group :test do
   gem 'shoulda-matchers'
 end
 
-gem 'rspec-rails', '~> 3.8', group: %i[development test production]
+gem 'rspec-rails', '~> 6.0.0', group: %i[development test production]
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -48,7 +48,7 @@ group :development, :test do
   gem 'factory_bot_rails'
 
   # Faker
-  gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
+  gem 'faker'
 end
 
 group :development do
@@ -79,7 +79,7 @@ gem 'jsonapi-rails'
 gem 'rack-cors'
 
 # Ransack
-gem 'ransack', github: 'activerecord-hackery/ransack'
+gem 'ransack'
 
 # Pagination
 gem 'api-pagination'
