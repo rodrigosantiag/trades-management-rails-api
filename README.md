@@ -1,26 +1,47 @@
-# README
+# Trades Management API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+API to serve personal trades management system
 
-Things you may want to cover:
+## Requirements (local development)
 
-* Ruby version
+* Ruby 2.3.1
 
-* System dependencies
+* Rails 7.x.x
 
-* Configuration
+* Bundler 2.3.6
 
-* Database creation
+* Mailcatcher
 
-* Database initialization
+* Postgres (latest)
 
-* How to run the test suite
+### Install and run
 
-* Services (job queues, cache servers, search engines, etc.)
+Simply run commands:
+- `gem install bundler`
+- `gem install mailcatcher`
+- `bundle install`
+- `mailcatcher`
+- `rails db:create`
+- `rails db:migrate`
+- `rails s -b '0.0.0.0'`
 
-* Deployment instructions
+### Run tests
+- `rspec`
 
-* Mailcatcher for development
+## Requirements (container development)
 
-Simply run gem install mailcatcher then mailcatcher to get started.
+* Docker
+* Docker compose (if you prefer, Docker Desktop includes Docker and Docker compose)
+
+### Build
+
+- `docker compose build`
+
+### Start containers
+
+- `docker compose up`
+
+### Run migrations in container
+
+- `docker compose run api rails db:create`
+- `docker compose run api rails db:migrate`
