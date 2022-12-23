@@ -2,28 +2,28 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Trade API', type: :request do
+RSpec.describe 'Trade API' do
   before { host! 'api.binaryoptionsmanagement.local' }
+
   let!(:user) { create(:user) }
   let!(:auth_data) { user.create_new_auth_token }
   let!(:account) { create(:account, user_id: user.id) }
   let!(:strategy) { create(:strategy, user_id: user.id) }
   let(:headers) do
     {
-        'Accept' => 'application/vnd.binaryoptionsmanagement.local',
-        'Content-Type' => Mime[:json].to_s,
-        'access-token' => auth_data['access-token'],
-        'uid' => auth_data['uid'],
-        'client' => auth_data['client']
+      'Accept' => 'application/vnd.binaryoptionsmanagement.local',
+      'Content-Type' => Mime[:json].to_s,
+      'access-token' => auth_data['access-token'],
+      'uid' => auth_data['uid'],
+      'client' => auth_data['client']
     }
   end
 
   describe 'GET /trades' do
-
     context 'when params are not passed' do
       before do
         create_list(:trade, 10, account_id: account.id, user_id: user.id, strategy_id: strategy.id)
-        get '/trades', params: {}, headers: headers
+        get '/trades', params: {}, headers:
       end
 
       it 'return status code 200' do
@@ -41,8 +41,9 @@ RSpec.describe 'Trade API', type: :request do
       let!(:trade2) { create(:trade, account_id: account2.id, user_id: user.id, strategy_id: strategy.id) }
       let!(:trade3) { create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy.id) }
       let!(:trade4) { create(:trade, account_id: account2.id, user_id: user.id, strategy_id: strategy.id) }
+
       before do
-        get "/trades?q[account_id_eq]=#{account.id}", params: {}, headers: headers
+        get "/trades?q[account_id_eq]=#{account.id}", params: {}, headers:
       end
 
       it 'return only account\'s trades' do
@@ -57,7 +58,7 @@ RSpec.describe 'Trade API', type: :request do
     let(:trade) { create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy.id) }
 
     before do
-      get "/trades/#{trade.id}", params: {}, headers: headers
+      get "/trades/#{trade.id}", params: {}, headers:
     end
 
     it 'return status code 200' do
@@ -74,7 +75,7 @@ RSpec.describe 'Trade API', type: :request do
       let(:trade_params) { attributes_for(:trade, account_id: account.id, strategy_id: strategy.id) }
 
       before do
-        post '/trades', params: { trade: trade_params }.to_json, headers: headers
+        post '/trades', params: { trade: trade_params }.to_json, headers:
       end
 
       it 'return status code 201' do
@@ -106,8 +107,9 @@ RSpec.describe 'Trade API', type: :request do
 
     context 'when params are invalid' do
       let(:trade_params) { attributes_for(:trade, profit: nil, account_id: account.id) }
+
       before do
-        post '/trades', params: { trade: trade_params }.to_json, headers: headers
+        post '/trades', params: { trade: trade_params }.to_json, headers:
       end
 
       it 'return status code 422' do
@@ -126,8 +128,9 @@ RSpec.describe 'Trade API', type: :request do
 
   describe 'PUT /trades/:id' do
     let!(:trade) { create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy.id) }
+
     before do
-      put "/trades/#{trade.id}", params: { trade: trade_params }.to_json, headers: headers
+      put "/trades/#{trade.id}", params: { trade: trade_params }.to_json, headers:
     end
 
     context 'when params are valid' do
@@ -179,7 +182,7 @@ RSpec.describe 'Trade API', type: :request do
     let(:trade) { create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy.id) }
 
     before do
-      delete "/trades/#{trade.id}", params: {}, headers: headers
+      delete "/trades/#{trade.id}", params: {}, headers:
     end
 
     it 'return status code 204' do
@@ -198,7 +201,6 @@ RSpec.describe 'Trade API', type: :request do
   end
 
   describe 'POST /trades/analytics' do
-
     context 'when account_id is selected and params are passed' do
       let!(:strategy1) { create(:strategy) }
       let!(:strategy2) { create(:strategy) }
@@ -222,11 +224,12 @@ RSpec.describe 'Trade API', type: :request do
         create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy1.id,
                        created_at: '2020-08-03 00:00:00'.to_date)
       end
+
       before do
         post '/trades/analytics', params: { q: { account_id_eq: account.id, created_at_lteq: '2020-08-03'.to_date,
                                                  created_at_gteq: '2020-08-02'.to_date, strategy_id_eq: strategy1.id } }
           .to_json,
-                                  headers: headers
+                                  headers:
       end
 
       it 'return only account\'s trades' do
@@ -240,13 +243,12 @@ RSpec.describe 'Trade API', type: :request do
 
         expect(trades).to eq([trade3.id, trade5.id])
       end
-
     end
 
     context 'when account_id is not selected' do
       before do
         create_list(:trade, 10, account_id: account.id, user_id: user.id, strategy_id: strategy.id)
-        post '/trades/analytics', params: { q: { account_id_eq: nil } }.to_json, headers: headers
+        post '/trades/analytics', params: { q: { account_id_eq: nil } }.to_json, headers:
       end
 
       it 'return status code 422' do
@@ -256,7 +258,6 @@ RSpec.describe 'Trade API', type: :request do
       it 'return errors key' do
         expect(json_body).to have_key(:errors)
       end
-
     end
   end
 end

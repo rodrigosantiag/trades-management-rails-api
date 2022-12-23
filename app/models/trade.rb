@@ -20,7 +20,6 @@ class Trade < ApplicationRecord
                           else
                             -value
                           end
-
   end
 
   def update_account_balance
@@ -28,6 +27,6 @@ class Trade < ApplicationRecord
     return unless trade_account
 
     current_balance = trade_account.initial_balance + trade_account.trades.sum(:result_balance)
-    trade_account.update(current_balance: current_balance)
+    trade_account.update(current_balance:)
   end
 end

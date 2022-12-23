@@ -6,7 +6,6 @@ module Api
     class BrokersController < ApplicationController
       before_action :authenticate_user!
 
-
       def index
         brokers = current_user.brokers.order(:name)
 

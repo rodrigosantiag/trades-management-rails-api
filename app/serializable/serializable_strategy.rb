@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SerializableStrategy < JSONAPI::Serializable::Resource
   type 'strategies'
   attribute :name

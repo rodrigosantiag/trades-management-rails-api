@@ -1,24 +1,26 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe 'User API', type: :request do
-  let!(:user) {create(:user)}
-  let!(:auth_data) {user.create_new_auth_token}
+RSpec.describe 'User API' do
+  let!(:user) { create(:user) }
+  let!(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
-        'Accept' => 'application/vnd.binaryoptionsmanagement.v1',
-        'Content-Type' => Mime[:json].to_s,
-        'access-token' => auth_data['access-token'],
-        'uid' => auth_data['uid'],
-        'client' => auth_data['client']
+      'Accept' => 'application/vnd.binaryoptionsmanagement.v1',
+      'Content-Type' => Mime[:json].to_s,
+      'access-token' => auth_data['access-token'],
+      'uid' => auth_data['uid'],
+      'client' => auth_data['client']
     }
   end
 
-  before {host! 'api.binaryoptionsmanagement.local'}
+  before { host! 'api.binaryoptionsmanagement.local' }
 
   describe 'GET /auth/validate_token' do
     context 'when the request headers are valid' do
       before do
-        get '/auth/validate_token', params: {}, headers: headers
+        get '/auth/validate_token', params: {}, headers:
       end
 
       it 'return user id' do
@@ -33,7 +35,7 @@ RSpec.describe 'User API', type: :request do
     context 'when request headers are invalid' do
       before do
         headers['access-token'] = 'invalid-token'
-        get '/auth/validate_token', params: {}, headers: headers
+        get '/auth/validate_token', params: {}, headers:
       end
 
       it 'return status code 401' do
@@ -44,11 +46,11 @@ RSpec.describe 'User API', type: :request do
 
   describe 'POST /auth' do
     before do
-      post '/auth', params: user_params.to_json, headers: headers
+      post '/auth', params: user_params.to_json, headers:
     end
 
     context 'when request params are valid' do
-      let(:user_params) {attributes_for(:user)}
+      let(:user_params) { attributes_for(:user) }
 
       it 'return status code 200' do
         expect(response).to have_http_status(:ok)
@@ -60,7 +62,7 @@ RSpec.describe 'User API', type: :request do
     end
 
     context 'when the request params are invalid' do
-      let(:user_params) {attributes_for(:user, email: 'invalid_email@')}
+      let(:user_params) { attributes_for(:user, email: 'invalid_email@') }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(:unprocessable_entity)
@@ -74,11 +76,11 @@ RSpec.describe 'User API', type: :request do
 
   describe 'PUT /auth' do
     before do
-      put '/auth', params: user_params.to_json, headers: headers
+      put '/auth', params: user_params.to_json, headers:
     end
 
     context 'when user params are valid' do
-      let(:user_params) {{email: 'new@email.com', name: 'John Doe', risk: 10}}
+      let(:user_params) { { email: 'new@email.com', name: 'John Doe', risk: 10 } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(:ok)
@@ -90,9 +92,9 @@ RSpec.describe 'User API', type: :request do
         expect(json_body[:data][:risk]).to eq(user_params[:risk])
       end
     end
-    
+
     context 'when user params are invalid' do
-      let(:user_params) {{email: 'new@invalid'}}
+      let(:user_params) { { email: 'new@invalid' } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(:unprocessable_entity)
@@ -106,7 +108,7 @@ RSpec.describe 'User API', type: :request do
 
   describe 'DELETE /auth' do
     before do
-      delete '/auth', params: {}, headers: headers
+      delete '/auth', params: {}, headers:
     end
 
     it 'return status code 200' do
@@ -120,11 +122,11 @@ RSpec.describe 'User API', type: :request do
 
   describe 'PUT /auth/password' do
     before do
-      put '/auth/password', params: user_params.to_json, headers: headers
+      put '/auth/password', params: user_params.to_json, headers:
     end
 
     context 'when password is updated successfuly' do
-      let(:user_params) {{password: 'abc12345', password_confirmation: 'abc12345'}}
+      let(:user_params) { { password: 'abc12345', password_confirmation: 'abc12345' } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(:ok)
@@ -136,7 +138,7 @@ RSpec.describe 'User API', type: :request do
     end
 
     context 'when password and password confirmation do not match' do
-      let(:user_params) {{password: 'abs1235', password_confirmation: '8945u3084'}}
+      let(:user_params) { { password: 'abs1235', password_confirmation: '8945u3084' } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(:unprocessable_entity)
@@ -150,7 +152,8 @@ RSpec.describe 'User API', type: :request do
 
   describe 'GET /users/:id' do
     context 'when user is valid' do
-      before {get "/users/#{user.id}", params: {}, headers: headers}
+      before { get "/users/#{user.id}", params: {}, headers: }
+
       it 'return status code 200' do
         expect(response).to have_http_status(:ok)
       end

@@ -7,11 +7,11 @@ describe 'TradeItmOtmMonthly' do
   let!(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
-        'Accept' => 'application/vnd.binaryoptionsmanagement.v1',
-        'Content-Type' => Mime[:json].to_s,
-        'access-token' => auth_data['access-token'],
-        'uid' => auth_data['uid'],
-        'client' => auth_data['client']
+      'Accept' => 'application/vnd.binaryoptionsmanagement.v1',
+      'Content-Type' => Mime[:json].to_s,
+      'access-token' => auth_data['access-token'],
+      'uid' => auth_data['uid'],
+      'client' => auth_data['client']
     }
   end
   let!(:broker) { create(:broker, user_id: user.id) }
@@ -36,9 +36,7 @@ describe 'TradeItmOtmMonthly' do
                      created_at: DateTime.new(2020, 1, 5, 0, 0, 0))
     end
 
-
     let!(:result) { Reports::TradeItmOtmMonthly.new([trade1, trade2, trade3, trade4]).call }
-
 
     it { expect(result).to have_key('01/2020') }
 

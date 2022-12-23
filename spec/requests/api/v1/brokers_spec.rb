@@ -1,25 +1,27 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe 'Broker API', type: :request do
-  before {host! 'api.binaryoptionsmanagement.local'}
-  let!(:user) {create(:user)}
-  let!(:auth_data) {user.create_new_auth_token}
+RSpec.describe 'Broker API' do
+  before { host! 'api.binaryoptionsmanagement.local' }
+
+  let!(:user) { create(:user) }
+  let!(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
-        'Accept' => 'application/vnd.binaryoptionsmanagement.v1',
-        'Content-Type' => Mime[:json].to_s,
-        'access-token' => auth_data['access-token'],
-        'uid' => auth_data['uid'],
-        'client' => auth_data['client']
+      'Accept' => 'application/vnd.binaryoptionsmanagement.v1',
+      'Content-Type' => Mime[:json].to_s,
+      'access-token' => auth_data['access-token'],
+      'uid' => auth_data['uid'],
+      'client' => auth_data['client']
     }
   end
 
   describe 'GET /brokers' do
-
     context 'random list. Checking responses' do
       before do
         create_list(:broker, 3, user_id: user.id)
-        get '/brokers', params: {}, headers: headers
+        get '/brokers', params: {}, headers:
       end
 
       it 'return status code 200' do
@@ -32,16 +34,16 @@ RSpec.describe 'Broker API', type: :request do
     end
 
     context 'return in alphabetical order' do
-      let!(:broker1) {create(:broker, name: 'IQ Option', user_id: user.id)}
-      let!(:broker2) {create(:broker, name: 'Binary.com', user_id: user.id)}
-      let!(:broker3) {create(:broker, name: 'Binomo Torneios', user_id: user.id)}
+      let!(:broker1) { create(:broker, name: 'IQ Option', user_id: user.id) }
+      let!(:broker2) { create(:broker, name: 'Binary.com', user_id: user.id) }
+      let!(:broker3) { create(:broker, name: 'Binomo Torneios', user_id: user.id) }
 
       before do
-        get '/brokers', params: {}, headers: headers
+        get '/brokers', params: {}, headers:
       end
 
       it 'return ordered by name' do
-        returned_brokers = json_body[:data].map {|t| t[:attributes][:name]}
+        returned_brokers = json_body[:data].map { |t| t[:attributes][:name] }
 
         expect(returned_brokers).to eq([broker2.name, broker3.name, broker1.name])
       end
@@ -49,9 +51,9 @@ RSpec.describe 'Broker API', type: :request do
   end
 
   describe 'GET /brokers/:id' do
-    let(:broker) {create(:broker, user_id: user.id)}
+    let(:broker) { create(:broker, user_id: user.id) }
 
-    before {get "/brokers/#{broker.id}", params: {}, headers: headers}
+    before { get "/brokers/#{broker.id}", params: {}, headers: }
 
     it 'return status code 200' do
       expect(response).to have_http_status(:ok)
@@ -64,11 +66,11 @@ RSpec.describe 'Broker API', type: :request do
 
   describe 'POST /brokers' do
     before do
-      post '/brokers', params: {broker: broker_params}.to_json, headers: headers
+      post '/brokers', params: { broker: broker_params }.to_json, headers:
     end
 
     context 'when params are valid' do
-      let(:broker_params) {attributes_for(:broker)}
+      let(:broker_params) { attributes_for(:broker) }
 
       it 'return status code 201' do
         expect(response).to have_http_status(:created)
@@ -88,7 +90,7 @@ RSpec.describe 'Broker API', type: :request do
     end
 
     context 'when params are not valid' do
-      let(:broker_params) {attributes_for(:broker, name: ' ')}
+      let(:broker_params) { attributes_for(:broker, name: ' ') }
 
       it 'return status code 422' do
         expect(response).to have_http_status(:unprocessable_entity)
@@ -105,14 +107,14 @@ RSpec.describe 'Broker API', type: :request do
   end
 
   describe 'PUT /brokers/:id' do
-    let!(:broker) {create(:broker, user_id: user.id)}
+    let!(:broker) { create(:broker, user_id: user.id) }
 
     before do
-      put "/brokers/#{broker.id}", params: {broker: broker_params}.to_json, headers: headers
+      put "/brokers/#{broker.id}", params: { broker: broker_params }.to_json, headers:
     end
 
     context 'when params are valid' do
-      let(:broker_params) {{name: 'New Broker Name'}}
+      let(:broker_params) { { name: 'New Broker Name' } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(:ok)
@@ -128,7 +130,7 @@ RSpec.describe 'Broker API', type: :request do
     end
 
     context 'when params are not valid' do
-      let(:broker_params) {{name: ' '}}
+      let(:broker_params) { { name: ' ' } }
 
       it 'return status code 422' do
         expect(response).to have_http_status(:unprocessable_entity)
@@ -145,10 +147,10 @@ RSpec.describe 'Broker API', type: :request do
   end
 
   describe 'DELETE /brokers/:id' do
-    let!(:broker) {create(:broker, user_id: user.id)}
+    let!(:broker) { create(:broker, user_id: user.id) }
 
     before do
-      delete "/brokers/#{broker.id}", params: {}, headers: headers
+      delete "/brokers/#{broker.id}", params: {}, headers:
     end
 
     it 'return status code 204' do
@@ -156,8 +158,7 @@ RSpec.describe 'Broker API', type: :request do
     end
 
     it 'remove broker from database' do
-      expect {Broker.find(broker.id)}.to raise_error(ActiveRecord::RecordNotFound)
+      expect { Broker.find(broker.id) }.to raise_error(ActiveRecord::RecordNotFound)
     end
-
   end
 end

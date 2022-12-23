@@ -3,7 +3,6 @@
 module Reports
   # Class responsible for trade results calculations
   class TradeItmOtm
-
     # Initialize object setting trades to be used on calculations and number of ITM's, OTM's, total ITM percent and OTM
     # percent
     #
@@ -32,6 +31,5 @@ module Reports
 
       { itm: @itm_percent, otm: @otm_percent }
     end
-
   end
 end

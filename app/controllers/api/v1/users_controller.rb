@@ -5,7 +5,6 @@ module Api
     # UsersController is a class which has some CRUD methods (show and update) and a reset_password method which is an
     # auxiliary method for Devise resetting password
     class UsersController < ApplicationController
-
       def reset_password
         user = User.with_reset_password_token(params[:reset_password_token])
 

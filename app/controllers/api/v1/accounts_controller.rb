@@ -15,7 +15,7 @@ module Api
       def show
         account = current_user.accounts.find_by_id(params[:id])
 
-        render jsonapi: account, include: [:broker, trades: [:strategy]], status: 200
+        render jsonapi: account, include: [:broker, { trades: [:strategy] }], status: 200
       end
 
       def create
@@ -50,7 +50,6 @@ module Api
       def account_params
         params.require(:account).permit(:type_account, :currency, :initial_balance, :current_balance, :broker_id)
       end
-
     end
   end
 end

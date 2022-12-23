@@ -1,16 +1,19 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe 'Strategy API', type: :request do
+RSpec.describe 'Strategy API' do
   before { host! 'api.binaryoptionsmanagement.local' }
+
   let!(:user) { create(:user) }
   let!(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
-        'Accept' => 'application/vnd.binaryoptionsmanagement.v1',
-        'Content-Type' => Mime[:json].to_s,
-        'access-token' => auth_data['access-token'],
-        'uid' => auth_data['uid'],
-        'client' => auth_data['client']
+      'Accept' => 'application/vnd.binaryoptionsmanagement.v1',
+      'Content-Type' => Mime[:json].to_s,
+      'access-token' => auth_data['access-token'],
+      'uid' => auth_data['uid'],
+      'client' => auth_data['client']
     }
   end
 
@@ -18,7 +21,7 @@ RSpec.describe 'Strategy API', type: :request do
     context 'with random strategies list. Check responser' do
       before do
         create_list(:strategy, 10, user_id: user.id)
-        get '/strategies', params: {}, headers: headers
+        get '/strategies', params: {}, headers:
       end
 
       it 'return status code 200' do
@@ -36,7 +39,7 @@ RSpec.describe 'Strategy API', type: :request do
       let!(:strategy3) { create(:strategy, name: 'Strategy C', user_id: user.id) }
 
       before do
-        get '/strategies', params: {}, headers: headers
+        get '/strategies', params: {}, headers:
       end
 
       it 'return ordered by name' do
@@ -50,7 +53,7 @@ RSpec.describe 'Strategy API', type: :request do
   describe 'GET /strategies/:id' do
     let(:strategy) { create(:strategy, user_id: user.id) }
 
-    before { get "/strategies/#{strategy.id}", params: {}, headers: headers }
+    before { get "/strategies/#{strategy.id}", params: {}, headers: }
 
     it 'return status code 200' do
       expect(response).to have_http_status(:ok)
@@ -63,7 +66,7 @@ RSpec.describe 'Strategy API', type: :request do
 
   describe 'POST /strategies' do
     before do
-      post '/strategies', params: { strategy: strategy_params }.to_json, headers: headers
+      post '/strategies', params: { strategy: strategy_params }.to_json, headers:
     end
 
     context 'when params are valid' do
@@ -107,7 +110,7 @@ RSpec.describe 'Strategy API', type: :request do
     let!(:strategy) { create(:strategy, user_id: user.id) }
 
     before do
-      put "/strategies/#{strategy.id}", params: { strategy: strategy_params }.to_json, headers: headers
+      put "/strategies/#{strategy.id}", params: { strategy: strategy_params }.to_json, headers:
     end
 
     context 'when params are valid' do
@@ -148,7 +151,7 @@ RSpec.describe 'Strategy API', type: :request do
     let!(:trade) { create(:trade, user_id: user.id, strategy_id: strategy.id) }
 
     before do
-      delete "/strategies/#{strategy.id}", params: {}, headers: headers
+      delete "/strategies/#{strategy.id}", params: {}, headers:
     end
 
     it 'return status code 204' do
@@ -164,5 +167,4 @@ RSpec.describe 'Strategy API', type: :request do
       expect(trade_after_strategy_deleted.strategy_id).to be_nil
     end
   end
-
 end

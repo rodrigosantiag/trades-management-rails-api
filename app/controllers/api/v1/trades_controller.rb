@@ -10,13 +10,7 @@ module Api
       def index
         params[:page] ||= 1
 
-        if params[:account_id]
-          get_trades_account(params[:account_id], params[:page])
-        elsif !params[:q].blank?
-          get_trades_by_params(params[:q])
-        else
-          get_user_trades(params[:page])
-        end
+        fetch_trades
       end
 
       def show
@@ -67,7 +61,7 @@ module Api
                                       :strategy_id)
       end
 
-      def get_trades_account account_id, page
+      def get_trades_account(account_id, page)
         account = current_user.accounts.find account_id
 
         trades = account.trades.order('id DESC').page(page).per(10)
@@ -75,7 +69,7 @@ module Api
         paginate jsonapi: trades, include: :strategy, per_page: 10, status: 200, meta: { total: trades.total_count }
       end
 
-      def get_trades_by_params params
+      def get_trades_by_params(params)
         params.merge!({ type_trade_eq: 'T' })
         params = beginning_and_end_of_day(params) unless params.blank?
         trades = current_user.trades.ransack(params).result
@@ -84,14 +78,22 @@ module Api
 
         itm_otm_monthly = Reports::TradeItmOtmMonthly.new(trades).call
 
-        render jsonapi: trades, include: :strategy, meta: { itm_otm_general: itm_otm_general,
-                                                            itm_otm_monthly: itm_otm_monthly }, status: 200
+        render jsonapi: trades, include: :strategy, meta: { itm_otm_general:,
+                                                            itm_otm_monthly: }, status: 200
       end
 
       def get_user_trades(page)
         trades = current_user.trades.order('id DESC').page(page).per(10)
 
         paginate jsonapi: trades, include: :strategy, per_page: 10, status: 200, meta: { total: trades.total_count }
+      end
+
+      def fetch_trades
+        return get_trades_account(params[:account_id], params[:page]) if params[:account_id]
+
+        return get_trades_by_params(params[:q]) unless params[:q].blank?
+
+        get_user_trades(params[:page])
       end
 
       def beginning_and_end_of_day(params)
@@ -103,7 +105,6 @@ module Api
         end
         params
       end
-
     end
   end
 end
