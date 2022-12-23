@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Trade ITM OTM Service' do
+describe 'TradeItmOtm' do
   let!(:user) { create(:user) }
   let!(:auth_data) { user.create_new_auth_token }
   let(:headers) do

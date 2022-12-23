@@ -18,7 +18,7 @@ RSpec.describe 'Broker API' do
   end
 
   describe 'GET /brokers' do
-    context 'random list. Checking responses' do
+    context 'with random list, check responses' do
       before do
         create_list(:broker, 3, user_id: user.id)
         get '/brokers', params: {}, headers:
@@ -33,7 +33,7 @@ RSpec.describe 'Broker API' do
       end
     end
 
-    context 'return in alphabetical order' do
+    context 'with alphabetical order' do
       let!(:broker1) { create(:broker, name: 'IQ Option', user_id: user.id) }
       let!(:broker2) { create(:broker, name: 'Binary.com', user_id: user.id) }
       let!(:broker3) { create(:broker, name: 'Binomo Torneios', user_id: user.id) }
@@ -42,7 +42,7 @@ RSpec.describe 'Broker API' do
         get '/brokers', params: {}, headers:
       end
 
-      it 'return ordered by name' do
+      it 'returns ordered by name' do
         returned_brokers = json_body[:data].map { |t| t[:attributes][:name] }
 
         expect(returned_brokers).to eq([broker2.name, broker3.name, broker1.name])

@@ -13,7 +13,7 @@ Rails.application.routes.draw do
       resources :accounts, only: %i[index show create update destroy]
       resources :trades, only: %i[index create update destroy show] do
         collection do
-          match 'analytics' => 'trades#analytics', via: :post, as: :analytics
+          post 'analytics' => 'trades#analytics', via: :post, as: :analytics
         end
       end
       resources :strategies, only: %i[index create update destroy show]

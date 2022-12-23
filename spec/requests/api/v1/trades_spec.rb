@@ -38,9 +38,9 @@ RSpec.describe 'Trade API' do
     context 'when params are passed' do
       let!(:account2) { create(:account, user_id: user.id) }
       let!(:trade1) { create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy.id) }
-      let!(:trade2) { create(:trade, account_id: account2.id, user_id: user.id, strategy_id: strategy.id) }
+      let(:trade2) { create(:trade, account_id: account2.id, user_id: user.id, strategy_id: strategy.id) }
       let!(:trade3) { create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy.id) }
-      let!(:trade4) { create(:trade, account_id: account2.id, user_id: user.id, strategy_id: strategy.id) }
+      let(:trade4) { create(:trade, account_id: account2.id, user_id: user.id, strategy_id: strategy.id) }
 
       before do
         get "/trades?q[account_id_eq]=#{account.id}", params: {}, headers:
@@ -204,22 +204,26 @@ RSpec.describe 'Trade API' do
     context 'when account_id is selected and params are passed' do
       let!(:strategy1) { create(:strategy) }
       let!(:strategy2) { create(:strategy) }
-      let!(:trade1) do
+      let(:trade1) do
         create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy1.id,
                        created_at: '2020-08-01 00:00:00'.to_date)
       end
-      let!(:trade2) do
+
+      let(:trade2) do
         create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy2.id,
                        created_at: '2020-08-01 00:00:00'.to_date)
       end
+
       let!(:trade3) do
         create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy1.id,
                        created_at: '2020-08-02 00:00:00'.to_date)
       end
-      let!(:trade4) do
+
+      let(:trade4) do
         create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy2.id,
                        created_at: '2020-08-03 00:00:00'.to_date)
       end
+
       let!(:trade5) do
         create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy1.id,
                        created_at: '2020-08-03 00:00:00'.to_date)

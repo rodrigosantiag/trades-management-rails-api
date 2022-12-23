@@ -77,7 +77,7 @@ RSpec.describe 'Strategy API' do
       end
 
       it 'save the strategy in database' do
-        expect(Strategy.find_by_name(strategy_params[:name])).not_to be_nil
+        expect(Strategy.find_by(name: strategy_params[:name])).not_to be_nil
       end
 
       it 'return strategy data' do
@@ -97,7 +97,7 @@ RSpec.describe 'Strategy API' do
       end
 
       it 'not save strategy in database' do
-        expect(Strategy.find_by_name(strategy_params[:name])).to be_nil
+        expect(Strategy.find_by(name: strategy_params[:name])).to be_nil
       end
 
       it 'return error key' do
@@ -121,7 +121,7 @@ RSpec.describe 'Strategy API' do
       end
 
       it 'save updated strategy in database' do
-        expect(Strategy.find_by_name(strategy_params[:name])).not_to be_nil
+        expect(Strategy.find_by(name: strategy_params[:name])).not_to be_nil
       end
 
       it 'return updated strategy data' do
@@ -137,7 +137,7 @@ RSpec.describe 'Strategy API' do
       end
 
       it 'not save invalid strategy in database' do
-        expect(Strategy.find_by_name(strategy_params[:name])).to be_nil
+        expect(Strategy.find_by(name: strategy_params[:name])).to be_nil
       end
 
       it 'have key errors' do
