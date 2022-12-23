@@ -319,6 +319,7 @@ DEPENDENCIES
   rails-controller-testing
   ransack
   rspec-rails (~> 6.0.0)
+  rubocop
   rubocop-rails
   rubocop-rspec
   sendgrid-ruby

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Serializer for Broker model
 class SerializableBroker < JSONAPI::Serializable::Resource
   type 'brokers'
   attribute :name

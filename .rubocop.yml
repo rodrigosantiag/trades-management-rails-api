@@ -150,6 +150,8 @@ Style/Documentation:
   Exclude:
     - 'config/**/*.rb'
     - 'db/**/*.rb'
+    - 'app/mailers/**/*.rb'
+    - 'test/**/*.rb'
 Layout/LineLength:
   Exclude:
     - 'config/**/*.rb'
@@ -166,6 +168,10 @@ Metrics/BlockLength:
 Naming/VariableNumber:
   Exclude:
     - 'spec/**/*.rb'
+Style/ConcatArrayLiterals: # new in 1.41
+  Enabled: true
+Style/RedundantDoubleSplatHashBraces: # new in 1.41
+  Enabled: true
 
 # Rubocop Rails
 Rails/ActionControllerFlashBeforeRender: # new in 2.16
@@ -281,7 +287,7 @@ Rails/FilePath:
   Exclude:
     - 'spec/rails_helper.rb'
 
-#Rubocop RSpec
+# Rubocop RSpec
 RSpec/BeEq: # new in 2.9.0
   Enabled: true
 RSpec/BeNil: # new in 2.9.0
