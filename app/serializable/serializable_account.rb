@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Serializer for Account model
 class SerializableAccount < JSONAPI::Serializable::Resource
   type 'accounts'
   attribute :created_date_formatted do

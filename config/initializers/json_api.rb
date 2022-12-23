@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # ActiveModelSerializers.config.adapter = :json_api
 #
 # ActionDispatch::Request.parameter_parsers[:json] = -> (raw_post) {

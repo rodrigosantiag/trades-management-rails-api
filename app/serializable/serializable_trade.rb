@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Serializer for Trade model
 class SerializableTrade < JSONAPI::Serializable::Resource
   type 'trades'
   attribute :value
