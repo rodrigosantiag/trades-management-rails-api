@@ -1,4 +1,7 @@
 require: ['rubocop-rails', 'rubocop-rspec']
+AllCops:
+  TargetRubyVersion: 3.1.2
+  NewCops: enable
 Gemspec/DeprecatedAttributeAssignment: # new in 1.30
   Enabled: true
 Gemspec/RequireMFA: # new in 1.23
@@ -168,10 +171,6 @@ Metrics/BlockLength:
 Naming/VariableNumber:
   Exclude:
     - 'spec/**/*.rb'
-Style/ConcatArrayLiterals: # new in 1.41
-  Enabled: true
-Style/RedundantDoubleSplatHashBraces: # new in 1.41
-  Enabled: true
 
 # Rubocop Rails
 Rails/ActionControllerFlashBeforeRender: # new in 2.16

@@ -2,7 +2,8 @@
 
 # Trade object represents a trade which is taken in a user's account
 class Trade < ApplicationRecord
-  validates :value, :profit, :account, :user
+  validates :value, presence: true
+  validates :profit, presence: true
   validates :result, inclusion: { in: [true, false] }
 
   belongs_to :account
