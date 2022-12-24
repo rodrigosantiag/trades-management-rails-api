@@ -7,9 +7,6 @@ RUN cd /app; \
     gem install bundler; \
     bundle install
 
-# Copy pre-commit script to .git/hooks
-COPY scripts/pre-commit .git/hooks
-
 # Add a script to be executed every time the container starts.
 COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
