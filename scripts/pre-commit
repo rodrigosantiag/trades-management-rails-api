@@ -3,3 +3,6 @@
 
 puts 'Starting rubocop...'
 system('rubocop --format progress')
+
+puts 'Stating rspec...'
+system('rspec')
