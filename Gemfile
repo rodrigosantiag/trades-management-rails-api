@@ -42,7 +42,7 @@ group :development, :test do
   gem 'byebug', platform: :mri
   # JSON API for rspec
   gem 'jsonapi-rspec'
-  gem 'listen', '~> 3.0.5'
+  gem 'listen', '~> 3.7.1'
   # Factory Bot
   gem 'factory_bot_rails'
 
