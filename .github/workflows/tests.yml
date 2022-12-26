@@ -1,0 +1,16 @@
+name: Tests
+run-name: Runnning CI for trades Management API
+on: push
+jobs:
+  rubocop:
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          bundle-cache: true
+
+      - name: Run Rubocop
+        run: bundle exec rubocop
