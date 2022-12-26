@@ -1,0 +1,72 @@
+name: Tests
+run-name: Runnning CI for trades Management API
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - develop
+      - master
+jobs:
+  rubocop:
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundle-cache: true
+
+      - name: Run Rubocop
+        run: bundle exec rubocop
+
+  test:
+    name: RSpec
+    needs: rubocop
+    runs-on: ubuntu:latest
+    env:
+      RAILS_ENV: test
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: password
+    services:
+      postgres:
+        image: postgres:latest
+        ports: ['5432:5432']
+        env:
+          POSTGRES_DB: binary_financial_system_api_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Install Postgres dependencies
+        run: sudo apt-get install libpq-dev
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+
+      - name: Yarn package cache
+        uses: actions/cache@v3
+        with:
+          path: ./node_modules
+          key: ${{ runner.os }}-yarn-v1-${{ hashFiles('./yarn.lock') }}
+
+      - name: Yarn install
+        run: yarn install --pure-lockfile
+
+      - name: Create database
+        run: |
+          bundle exec rails db:create
+          bundle exec rails db:schema:load
+
+      - name: Run tests
+        run: bundle exec rspec spec
