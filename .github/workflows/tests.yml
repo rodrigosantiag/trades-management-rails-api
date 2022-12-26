@@ -8,6 +8,7 @@ on:
       - master
 jobs:
   rubocop:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -15,7 +16,7 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          bundle-cache: true
+          bundler-cache: true
 
       - name: Run Rubocop
         run: bundle exec rubocop
@@ -23,7 +24,7 @@ jobs:
   test:
     name: RSpec
     needs: rubocop
-    runs-on: ubuntu:latest
+    runs-on: ubuntu-latest
     env:
       RAILS_ENV: test
       DATABASE_USER: postgres
