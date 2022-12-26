@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # File: config/initializers/json_param_key_transform.rb
 # Transform JSON request param keys from JSON-conventional camelCase to
 # Rails-conventional snake_case:
@@ -13,5 +15,5 @@ ActionDispatch::Request.parameter_parsers[:json] = lambda { |raw_post|
   end
 
   # Return data
-  data.is_a?(Hash) ? data : { '_json': data }
+  data.is_a?(Hash) ? data : { _json: data }
 }

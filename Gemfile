@@ -7,9 +7,8 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem "rails", "~> 7.0.0"
+gem 'rails', '~> 7.0.0'
 # Use pg as the database for Active Record (Development and Production)
 gem 'pg', '>= 0.18', '< 2.0', group: %i[development production]
 
@@ -52,11 +51,14 @@ group :development, :test do
 end
 
 group :development do
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring  gem 'spring'
+  # Spring speeds up development by keeping your application running in the background. Read more:
+  # https://github.com/rails/spring  gem 'spring'
+  gem 'overcommit'
+  gem 'rubocop', require: false
+  gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
   gem 'spring-commands-rspec'
   gem 'spring-watcher-listen', '~> 2.0.0'
-
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
