@@ -3,6 +3,7 @@
 ![Ruby](https://img.shields.io/badge/ruby-3.1.2-red)
 ![RoR](https://img.shields.io/badge/rails-7-red)
 ![Lint and tests](https://github.com/rodrigosantiag/trades-management-rails-api/actions/workflows/tests.yml/badge.svg)
+[![Coverage](https://USERNAME.github.io/REPO/badge.svg)](https://github.com/USERNAME/REPO)
 ![Languages](https://img.shields.io/github/languages/count/rodrigosantiag/trades-management-rails-api)
 ![Top language](https://img.shields.io/github/languages/top/rodrigosantiag/trades-management-rails-api)
 ![Total lines](https://img.shields.io/tokei/lines/github/rodrigosantiag/trades-management-rails-api)
@@ -54,6 +55,6 @@ Simply run commands:
 - `docker compose run api bundle exec rails db:migrate`
 
 ### Lint
-To code linting the project uses [Rubocop](https://github.com/rubocop/rubocop). If you don't have Rubocop GEM installed, first you should install it: `gem install rubocop`
+To code linting, the project uses [Rubocop](https://github.com/rubocop/rubocop). If you don't have Rubocop GEM installed, first you should install it: `gem install rubocop`
 
 After that, just run `bundle exec rubocop` to lint code.

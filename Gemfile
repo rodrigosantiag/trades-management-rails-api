@@ -33,6 +33,8 @@ gem 'puma', '~> 6.0'
 group :test do
   gem 'rails-controller-testing'
   gem 'shoulda-matchers'
+  gem 'simplecov', require: false
+  gem 'simplecov-shields-badge', require: false
 end
 
 gem 'rspec-rails', '~> 6.0.0', group: %i[development test production]
