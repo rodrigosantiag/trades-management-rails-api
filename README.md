@@ -54,6 +54,6 @@ Simply run commands:
 - `docker compose run api bundle exec rails db:migrate`
 
 ### Lint
-To code linting the project uses [Rubocop](https://github.com/rubocop/rubocop). If you don't have Rubocop GEM installed, first you should install it: `gem install rubocop`
+To code linting, the project uses [Rubocop](https://github.com/rubocop/rubocop). If you don't have Rubocop GEM installed, first you should install it: `gem install rubocop`
 
 After that, just run `bundle exec rubocop` to lint code.
