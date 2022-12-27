@@ -1,7 +1,11 @@
 # Trades Management API
 
+![Ruby](https://img.shields.io/badge/ruby-3.1.2-red)
+![RoR](https://img.shields.io/badge/rails-7-red)
 ![Lint and tests](https://github.com/rodrigosantiag/trades-management-rails-api/actions/workflows/tests.yml/badge.svg)
-
+![Languages](https://img.shields.io/github/languages/count/rodrigosantiag/trades-management-rails-api)
+![Top language](https://img.shields.io/github/languages/top/rodrigosantiag/trades-management-rails-api)
+![Total lines](https://img.shields.io/tokei/lines/github/rodrigosantiag/trades-management-rails-api)
 
 API to serve personal trades management system
 
@@ -24,12 +28,12 @@ Simply run commands:
 - `gem install mailcatcher`
 - `bundle install`
 - `mailcatcher`
-- `rails db:create`
-- `rails db:migrate`
-- `rails s -b '0.0.0.0'`
+- `bundle exec rails db:create`
+- `bundle exec rails db:migrate`
+- `bundle exec rails s -b '0.0.0.0'`
 
 ### Run tests
-- `rspec`
+- `bundle exec rspec`
 
 ## Requirements (container development)
 
@@ -46,10 +50,10 @@ Simply run commands:
 
 ### Run migrations in container
 
-- `docker compose run api rails db:create`
-- `docker compose run api rails db:migrate`
+- `docker compose run api bundle exec rails db:create`
+- `docker compose run api bundle exec rails db:migrate`
 
 ### Lint
 To code linting the project uses [Rubocop](https://github.com/rubocop/rubocop). If you don't have Rubocop GEM installed, first you should install it: `gem install rubocop`
 
-After that, just run `bundle exec rubocop` (or just `rubocop`) to lint code.
+After that, just run `bundle exec rubocop` to lint code.
