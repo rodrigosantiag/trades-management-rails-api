@@ -29,6 +29,11 @@ jobs:
       RAILS_ENV: test
       DATABASE_USER: postgres
       DATABASE_PASSWORD: password
+      GITHUB_USER: ${{ secrets.USERNAME }}
+      GITHUB_MAIL: ${{ secrets.MAIL }}
+      GITHUB_ORG: ${{ secrets.ORG }}
+      GITHUB_REPO: ${{ secrets.REPO }}
+      GITHUB_ACCESS_TOKEN: ${{ secrets.TOKEN }}
     services:
       postgres:
         image: postgres:latest
