@@ -1,26 +1,59 @@
-# README
+# Trades Management API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+![Ruby](https://img.shields.io/badge/ruby-3.1.2-red)
+![RoR](https://img.shields.io/badge/rails-7-red)
+![Lint and tests](https://github.com/rodrigosantiag/trades-management-rails-api/actions/workflows/tests.yml/badge.svg)
+![Languages](https://img.shields.io/github/languages/count/rodrigosantiag/trades-management-rails-api)
+![Top language](https://img.shields.io/github/languages/top/rodrigosantiag/trades-management-rails-api)
+![Total lines](https://img.shields.io/tokei/lines/github/rodrigosantiag/trades-management-rails-api)
 
-Things you may want to cover:
+API to serve personal trades management system
 
-* Ruby version
+## Requirements (local development)
 
-* System dependencies
+* Ruby 2.3.1
 
-* Configuration
+* Rails 7.x.x
 
-* Database creation
+* Bundler 2.3.6
 
-* Database initialization
+* Mailcatcher
 
-* How to run the test suite
+* Postgres (latest)
 
-* Services (job queues, cache servers, search engines, etc.)
+### Install and run
 
-* Deployment instructions
+Simply run commands:
+- `gem install bundler`
+- `gem install mailcatcher`
+- `bundle install`
+- `mailcatcher`
+- `bundle exec rails db:create`
+- `bundle exec rails db:migrate`
+- `bundle exec rails s -b '0.0.0.0'`
 
-* Mailcatcher for development
+### Run tests
+- `bundle exec rspec`
 
-Simply run gem install mailcatcher then mailcatcher to get started.
+## Requirements (container development)
+
+* Docker
+* Docker compose (if you prefer, Docker Desktop includes Docker and Docker compose)
+
+### Build
+
+- `docker compose build`
+
+### Start containers
+
+- `docker compose up`
+
+### Run migrations in container
+
+- `docker compose run api bundle exec rails db:create`
+- `docker compose run api bundle exec rails db:migrate`
+
+### Lint
+To code linting the project uses [Rubocop](https://github.com/rubocop/rubocop). If you don't have Rubocop GEM installed, first you should install it: `gem install rubocop`
+
+After that, just run `bundle exec rubocop` to lint code.

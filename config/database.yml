@@ -61,11 +61,6 @@ development:
 test:
   <<: *default
   database: binary_financial_system_api_test
-#test:
-#  adapter: sqlite3
-#  database: db/binary_financial_system_api_test.sqlite3
-#  pool: 5
-#  timeout: 5000
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
