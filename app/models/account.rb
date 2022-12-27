@@ -2,7 +2,8 @@
 
 # Account is a model which represents a broker account
 class Account < ApplicationRecord
-  validates_presence_of :type_account, :currency, :broker, :user
+  validates :type_account, presence: true
+  validates :currency, presence: true
 
   belongs_to :broker
   belongs_to :user

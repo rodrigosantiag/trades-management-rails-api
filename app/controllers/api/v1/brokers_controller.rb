@@ -6,27 +6,26 @@ module Api
     class BrokersController < ApplicationController
       before_action :authenticate_user!
 
-
       def index
         brokers = current_user.brokers.order(:name)
 
         render jsonapi: brokers, include: :accounts, fields: { accounts: %i[type_account currency initial_balance
-                                                                            current_balance broker_id] }, status: 200
+                                                                            current_balance broker_id] }, status: :ok
       end
 
       def show
         broker = current_user.brokers.find(params[:id])
 
-        render jsonapi: broker, status: 200
+        render jsonapi: broker, status: :ok
       end
 
       def create
         broker = current_user.brokers.build(broker_params)
 
         if broker.save
-          render jsonapi: broker, status: 201
+          render jsonapi: broker, status: :created
         else
-          render jsonapi_errors: broker.errors, status: 422
+          render jsonapi_errors: broker.errors, status: :unprocessable_entity
         end
       end
 
@@ -35,9 +34,9 @@ module Api
 
         if broker.update(broker_params)
           render jsonapi: broker, include: :accounts, fields: { accounts: %i[type_account currency initial_balance
-                                                                             current_balance broker_id] }, status: 200
+                                                                             current_balance broker_id] }, status: :ok
         else
-          render jsonapi_errors: broker.errors, status: 422
+          render jsonapi_errors: broker.errors, status: :unprocessable_entity
         end
       end
 
@@ -46,7 +45,7 @@ module Api
 
         broker.destroy
 
-        head 204
+        head :no_content
       end
 
       private

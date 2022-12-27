@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # ApplicationController class for entire application
 class ApplicationController < ActionController::API
   include DeviseTokenAuth::Concerns::SetUserByToken

@@ -1,7 +1,51 @@
-require: rubocop-rspec
-
+require: ['rubocop-rails', 'rubocop-rspec']
+AllCops:
+  TargetRubyVersion: 3.1.2
+  NewCops: enable
+Gemspec/RequireMFA: # new in 1.23
+  Enabled: false
+Style/MixinUsage:
+  Exclude:
+    - 'bin/update'
+Style/Documentation:
+  Exclude:
+    - 'config/**/*.rb'
+    - 'db/**/*.rb'
+    - 'app/mailers/**/*.rb'
+    - 'test/**/*.rb'
+Layout/LineLength:
+  Exclude:
+    - 'config/**/*.rb'
+Metrics/AbcSize:
+  Exclude:
+    - 'db/**/*.rb'
+Metrics/MethodLength:
+  Exclude:
+    - 'db/**/*.rb'
 Metrics/BlockLength:
   Exclude:
-    - 'Rakefile'
-    - '**/*.rake'
-    - 'test/**/*.rb'
+    - 'db/**/*.rb'
+    - 'spec/**/*.rb'
+Naming/VariableNumber:
+  Exclude:
+    - 'spec/**/*.rb'
+
+# Rubocop Rails
+Rails/SkipsModelValidations:
+  Enabled: true
+  Exclude:
+    - 'db/**/*.rb'
+Rails/CreateTableWithTimestamps:
+  Enabled: true
+  Exclude:
+    - 'db/**/*.rb'
+Rails/FilePath:
+  Enabled: true
+  Exclude:
+    - 'spec/rails_helper.rb'
+
+# Rubocop RSpec
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+RSpec/MultipleExpectations:
+  Enabled: false

@@ -2,17 +2,16 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Trade ITM OTM Service' do
-
+describe 'TradeItmOtm' do
   let!(:user) { create(:user) }
   let!(:auth_data) { user.create_new_auth_token }
   let(:headers) do
     {
-        'Accept' => 'application/vnd.binaryoptionsmanagement.v1',
-        'Content-Type' => Mime[:json].to_s,
-        'access-token' => auth_data['access-token'],
-        'uid' => auth_data['uid'],
-        'client' => auth_data['client']
+      'Accept' => 'application/vnd.binaryoptionsmanagement.v1',
+      'Content-Type' => Mime[:json].to_s,
+      'access-token' => auth_data['access-token'],
+      'uid' => auth_data['uid'],
+      'client' => auth_data['client']
     }
   end
   let!(:broker) { create(:broker, user_id: user.id) }

@@ -20,9 +20,9 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: rodrigo
-  password: knopix
-  host: localhost
+  username: <%= ENV.fetch('DATABASE_USER') {'rodrigo'} %>
+  password: <%= ENV.fetch('DATABASE_PASSWORD') {'knopix'} %>
+  host: <%= ENV.fetch('DATABASE_HOST') {'localhost'} %>
 
 development:
   <<: *default
@@ -58,14 +58,9 @@ development:
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
-#test:
-#  <<: *default
-#  database: binary_financial_system_api_test
 test:
-  adapter: sqlite3
-  database: db/binary_financial_system_api_test.sqlite3
-  pool: 5
-  timeout: 5000
+  <<: *default
+  database: binary_financial_system_api_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
