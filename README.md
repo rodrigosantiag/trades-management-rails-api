@@ -1,5 +1,8 @@
 # Trades Management API
 
+![Lint and tests](https://github.com/rodrigosantiag/trades-management-rails-api/actions/workflows/tests.yml/badge.svg)
+
+
 API to serve personal trades management system
 
 ## Requirements (local development)
