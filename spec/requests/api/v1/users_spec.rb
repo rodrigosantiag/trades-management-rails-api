@@ -168,19 +168,19 @@ RSpec.describe 'User API' do
   describe 'PUT /reset_password/:reset_token_password' do
     let!(:old_password) { user.encrypted_password }
 
+    let!(:user_params) do
+      {
+        reset_password_token: 'foo-bar',
+        password: '87654321',
+        password_confirmation: '87654321'
+      }
+    end
+
     context 'when token is valid' do
       before do
         user.update(reset_password_token: '2ba85a8a179102f5191d37e0733b647cd011aba80e9fd198f4d2cd0c5c892a6c')
         put '/reset_password/2ba85a8a179102f5191d37e0733b647cd011aba80e9fd198f4d2cd0c5c892a6c',
             params: user_params.to_json, headers:
-      end
-
-      let(:user_params) do
-        {
-          reset_password_token: 'foo-bar',
-          password: '87654321',
-          password_confirmation: '87654321'
-        }
       end
 
       it 'return statud code 200' do
@@ -193,6 +193,78 @@ RSpec.describe 'User API' do
 
       it 'updates user passowrd' do
         expect(user.reload.encrypted_password).not_to eq(old_password)
+      end
+    end
+
+    context 'when token is invalid' do
+      before { put '/reset_password/foo-bar', params: user_params.to_json, headers: }
+
+      it 'return status code 404' do
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it 'return error message' do
+        expect(json_body[:errors][0]).to eq('User not found or token expired/already used')
+      end
+    end
+  end
+
+  describe 'PUT /users/:id' do
+    let!(:other_user) { create(:user) }
+
+    let!(:user_params) do
+      {
+        name: 'John Doe',
+        risk: 10
+      }
+    end
+
+    context 'when user tries to update another user' do
+      before { put "/users/#{other_user.id}", params: user_params.to_json, headers: }
+
+      it 'return status code 404' do
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it 'return error message' do
+        expect(json_body[:errors][0]).to eq('You are not allowed to edit this user')
+      end
+    end
+
+    context 'when user tries to update himself with valid data' do
+      before { put "/users/#{user.id}", params: user_params.to_json, headers: }
+
+      it 'return status code 200' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'update user data' do
+        expect(user.reload.name).to eq('John Doe')
+        expect(user.reload.risk).to eq(10)
+      end
+
+      it 'render user info' do
+        expect(json_body[:data][:attributes][:name]).to eq('John Doe')
+      end
+    end
+
+    context 'when user tries to update himself with invalid data' do
+      before do
+        user_params[:name] = nil
+        put "/users/#{user.id}", params: user_params.to_json, headers:
+      end
+
+      it 'return status code 422' do
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'do not update user data' do
+        expect(user.reload.name).not_to eq('John Doe')
+        expect(user.reload.risk).not_to eq(10)
+      end
+
+      it 'render user info' do
+        expect(json_body).to have_key(:errors)
       end
     end
   end
