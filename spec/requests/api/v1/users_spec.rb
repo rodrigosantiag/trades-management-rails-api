@@ -5,6 +5,7 @@ require 'rails_helper'
 RSpec.describe 'User API' do
   let!(:user) { create(:user) }
   let!(:auth_data) { user.create_new_auth_token }
+
   let(:headers) do
     {
       'Accept' => 'application/vnd.binaryoptionsmanagement.v1',
@@ -160,6 +161,38 @@ RSpec.describe 'User API' do
 
       it 'return user data' do
         expect(json_body[:data][:attributes][:name]).to eq(user.name)
+      end
+    end
+  end
+
+  describe 'PUT /reset_password/:reset_token_password' do
+    let!(:old_password) { user.encrypted_password }
+
+    context 'when token is valid' do
+      before do
+        user.update(reset_password_token: '2ba85a8a179102f5191d37e0733b647cd011aba80e9fd198f4d2cd0c5c892a6c')
+        put '/reset_password/2ba85a8a179102f5191d37e0733b647cd011aba80e9fd198f4d2cd0c5c892a6c',
+            params: user_params.to_json, headers:
+      end
+
+      let(:user_params) do
+        {
+          reset_password_token: 'foo-bar',
+          password: '87654321',
+          password_confirmation: '87654321'
+        }
+      end
+
+      it 'return statud code 200' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'return user data' do
+        expect(json_body[:data][:attributes][:name]).to eq(user.name)
+      end
+
+      it 'updates user passowrd' do
+        expect(user.reload.encrypted_password).not_to eq(old_password)
       end
     end
   end
