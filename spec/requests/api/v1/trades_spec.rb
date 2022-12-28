@@ -35,7 +35,7 @@ RSpec.describe 'Trade API' do
       end
     end
 
-    context 'when params are passed' do
+    context 'when params are passed through "q" param' do
       let!(:account2) { create(:account, user_id: user.id) }
       let!(:trade1) { create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy.id) }
       let(:trade2) { create(:trade, account_id: account2.id, user_id: user.id, strategy_id: strategy.id) }
@@ -50,6 +50,24 @@ RSpec.describe 'Trade API' do
         trades = json_body[:data].map { |trade| trade[:id].to_i }
 
         expect(trades).to eq([trade1.id, trade3.id])
+      end
+    end
+
+    context 'when params are passed through account_id param' do
+      let!(:account2) { create(:account, user_id: user.id) }
+      let!(:trade1) { create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy.id) }
+      let(:trade2) { create(:trade, account_id: account2.id, user_id: user.id, strategy_id: strategy.id) }
+      let!(:trade3) { create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy.id) }
+      let(:trade4) { create(:trade, account_id: account2.id, user_id: user.id, strategy_id: strategy.id) }
+
+      before do
+        get "/trades?account_id=#{account.id}", params: {}, headers:
+      end
+
+      it 'return only account\'s trades' do
+        trades = json_body[:data].map { |trade| trade[:id].to_i }
+
+        expect(trades).to eq([trade3.id, trade1.id])
       end
     end
   end
