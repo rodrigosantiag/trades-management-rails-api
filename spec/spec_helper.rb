@@ -4,7 +4,11 @@ require 'simplecov'
 SimpleCov.start
 
 require 'shields_badge'
-SimpleCov.formatter = SimpleCov::Formatter::ShieldsBadge
+require 'simplecov-html'
+SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new([
+                                                                  SimpleCov::Formatter::HTMLFormatter,
+                                                                  SimpleCov::Formatter::ShieldsBadge
+                                                                ])
 
 require 'jsonapi/rspec'
 

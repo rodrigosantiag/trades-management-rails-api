@@ -26,9 +26,10 @@ module Api
 
       def update
         user = User.find(params[:id])
+
         if current_user.id != user.id
-          render jsonapi: { errors: ['You are not allowed to edit this user'] },
-                 status: :not_found
+          render json: { errors: ['You are not allowed to edit this user'] },
+                 status: :not_found and return
         end
 
         if user.update(user_params)
