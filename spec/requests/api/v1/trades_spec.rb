@@ -222,12 +222,12 @@ RSpec.describe 'Trade API' do
     context 'when account_id is selected and params are passed' do
       let!(:strategy1) { create(:strategy) }
       let!(:strategy2) { create(:strategy) }
-      let(:trade1) do
+      let!(:trade1) do
         create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy1.id,
                        created_at: '2020-08-01 00:00:00'.to_date)
       end
 
-      let(:trade2) do
+      let!(:trade2) do
         create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy2.id,
                        created_at: '2020-08-01 00:00:00'.to_date)
       end
@@ -237,7 +237,7 @@ RSpec.describe 'Trade API' do
                        created_at: '2020-08-02 00:00:00'.to_date)
       end
 
-      let(:trade4) do
+      let!(:trade4) do
         create(:trade, account_id: account.id, user_id: user.id, strategy_id: strategy2.id,
                        created_at: '2020-08-03 00:00:00'.to_date)
       end
@@ -264,6 +264,7 @@ RSpec.describe 'Trade API' do
         trades = json_body[:data].map { |t| t[:id].to_i }
 
         expect(trades).to eq([trade3.id, trade5.id])
+        expect([trade1.id, trade2.id, trade4.id]).not_to match_array(trades)
       end
     end
 
