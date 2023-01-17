@@ -50,9 +50,6 @@ jobs:
           task-definition: .github/workflows/migrations.json
           container-name: trades-management-api
           image: ${{ steps.build-image.outputs.image }}
-          environment-variables: |
-            RAILS_ENV=production
-            DATABASE_URL=$DATABASE_URL
 
       - name: Deploy migration to Amazon ECS Service
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
