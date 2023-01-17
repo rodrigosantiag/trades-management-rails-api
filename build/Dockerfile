@@ -14,6 +14,20 @@ EXPOSE 3000
 # Configure the main process to run when running image
 CMD ["rails", "server", "-b", "0.0.0.0", "-p", "3000"]
 
+ARG APP_ENV=production
+ENV RAILS_ENV=$APP_ENV
+ENV RAKE_ENV=$APP_ENV
+ENV RAILS_SERVE_STATIC_FILES true
+ENV RAILS_LOG_TO_STDOUT true
+
+ARG SECRET_KEY_BASE_ARG=null
+ENV SECRET_KEY_BASE=$SECRET_KEY_BASE_ARG
+ARG DATABASE_URL_ARG=null
+ENV DATABASE_URL=$DATABASE_URL_ARG
+
 RUN cd /app; \
     gem install bundler; \
-    bundle install
+    bundle config --global frozen 1; \
+    bundle config set without 'development test'; \
+    bundle install; \
+    bundle exec rails assets:precompile
