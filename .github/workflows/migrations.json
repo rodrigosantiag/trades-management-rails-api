@@ -38,16 +38,12 @@
       "workingDirectory": null,
       "secrets": [
         {
-          "secrets": [
-            {
-              "name": "DATABASE_URL",
-              "value": "arn:aws:ssm:us-east-1:657798017777:parameter/trades-management-rails-api/database_url"
-            },
-            {
-              "name": "RAILS_ENV",
-              "value": "arn:aws:ssm:us-east-1:657798017777:parameter/trades-management-rails-api/rails_env"
-            }
-          ]
+          "name": "DATABASE_URL",
+          "value": "arn:aws:ssm:us-east-1:657798017777:parameter/trades-management-rails-api/database_url"
+        },
+        {
+          "name": "RAILS_ENV",
+          "value": "arn:aws:ssm:us-east-1:657798017777:parameter/trades-management-rails-api/rails_env"
         }
       ],
       "dockerSecurityOptions": null,
