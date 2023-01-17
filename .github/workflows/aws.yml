@@ -39,4 +39,20 @@ jobs:
           # be deployed to ECS
           docker build . --file Dockerfile --target production --tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --build-arg DATABASE_URL=$DATABASE_URL --build-arg SECRET_KEY_BASE=$SECRET_KEY_BASE
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          echo "{image}::{$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG}" >> $GITHUB_OUTPUT
+
+      - name: Migration task definition
+        id: migration-task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: .github/workflows/migrations.json
+          container-name: trades-management-repo
+          image: ${{ steps.build-image.outputs.image }}
+
+      - name: Deploy migration to Amazon ECS Service
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.migration-task-def.outputs.task-definition }}
+          service: trades-management-api-service
+          cluster: trades-management-cluster
+          wait-for-service-stability: true
