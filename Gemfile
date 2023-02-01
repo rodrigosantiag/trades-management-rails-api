@@ -8,7 +8,7 @@ git_source(:github) do |repo_name|
 end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 7.0.0'
+gem 'rails', '~> 7.0.4'
 # Use pg as the database for Active Record (Development and Production)
 gem 'pg', '>= 0.18', '< 2.0', group: %i[development production]
 
