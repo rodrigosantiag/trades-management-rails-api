@@ -3,7 +3,7 @@
 ![Ruby](https://img.shields.io/badge/ruby-3.1.2-red)
 ![RoR](https://img.shields.io/badge/rails-7-red)
 ![Lint and tests](https://github.com/rodrigosantiag/trades-management-rails-api/actions/workflows/tests.yml/badge.svg)
-[![Coverage](https://USERNAME.github.io/REPO/badge.svg)](https://github.com/USERNAME/REPO)
+[![Coverage](https://rodrigosantiag.github.io/trades-management-rails-api/badge.svg)](https://github.com/rodrigosantiag/trades-management-rails-api)
 ![Languages](https://img.shields.io/github/languages/count/rodrigosantiag/trades-management-rails-api)
 ![Top language](https://img.shields.io/github/languages/top/rodrigosantiag/trades-management-rails-api)
 ![Total lines](https://img.shields.io/tokei/lines/github/rodrigosantiag/trades-management-rails-api)

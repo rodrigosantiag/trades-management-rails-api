@@ -8,7 +8,7 @@ git_source(:github) do |repo_name|
 end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 7.0.0'
+gem 'rails', '~> 7.0.4'
 # Use pg as the database for Active Record (Development and Production)
 gem 'pg', '>= 0.18', '< 2.0', group: %i[development production]
 
@@ -16,7 +16,7 @@ gem 'pg', '>= 0.18', '< 2.0', group: %i[development production]
 gem 'sqlite3', group: :test
 
 # Use Puma as the app server
-gem 'puma', '~> 6.0'
+gem 'puma', '~> 6.2'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
@@ -44,7 +44,7 @@ group :development, :test do
   gem 'byebug', platform: :mri
   # JSON API for rspec
   gem 'jsonapi-rspec'
-  gem 'listen', '~> 3.7.1'
+  gem 'listen', '~> 3.8.0'
   # Factory Bot
   gem 'factory_bot_rails'
 
@@ -90,7 +90,7 @@ gem 'api-pagination'
 gem 'kaminari'
 
 # Rails 5.2
-gem 'bootsnap', '~> 1.4', '>= 1.4.4'
+gem 'bootsnap', '~> 1.16'
 
 # Webpacker
 gem 'webpacker'
