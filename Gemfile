@@ -90,7 +90,7 @@ gem 'api-pagination'
 gem 'kaminari'
 
 # Rails 5.2
-gem 'bootsnap', '~> 1.4', '>= 1.4.4'
+gem 'bootsnap', '~> 1.16'
 
 # Webpacker
 gem 'webpacker'
