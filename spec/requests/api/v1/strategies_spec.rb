@@ -18,7 +18,7 @@ RSpec.describe 'Strategy API' do
   end
 
   describe 'GET /strategies' do
-    context 'with random strategies list. Check responser' do
+    context 'with random strategies list. Check response' do
       before do
         create_list(:strategy, 10, user_id: user.id)
         get '/strategies', params: {}, headers:
@@ -34,9 +34,9 @@ RSpec.describe 'Strategy API' do
     end
 
     context 'with list of strategies in alphabetical order' do
-      let!(:strategy1) { create(:strategy, name: 'Strategy B', user_id: user.id) }
-      let!(:strategy2) { create(:strategy, name: 'Strategy A', user_id: user.id) }
-      let!(:strategy3) { create(:strategy, name: 'Strategy C', user_id: user.id) }
+      let!(:strategy1) { create(:strategy, name: 'Strategy B', duration: 25, user_id: user.id) }
+      let!(:strategy2) { create(:strategy, name: 'Strategy A', duration: 10, user_id: user.id) }
+      let!(:strategy3) { create(:strategy, name: 'Strategy C', duration: 15, user_id: user.id) }
 
       before do
         get '/strategies', params: {}, headers:
@@ -51,7 +51,7 @@ RSpec.describe 'Strategy API' do
   end
 
   describe 'GET /strategies/:id' do
-    let(:strategy) { create(:strategy, user_id: user.id) }
+    let(:strategy) { create(:strategy, duration: 15, user_id: user.id) }
 
     before { get "/strategies/#{strategy.id}", params: {}, headers: }
 
@@ -61,6 +61,7 @@ RSpec.describe 'Strategy API' do
 
     it 'return strategy data' do
       expect(json_body[:data][:attributes][:name]).to eq(strategy.name)
+      expect(json_body[:data][:attributes][:duration]).to eq(15)
     end
   end
 
@@ -82,6 +83,7 @@ RSpec.describe 'Strategy API' do
 
       it 'return strategy data' do
         expect(json_body[:data][:attributes][:name]).to eq(strategy_params[:name])
+        expect(json_body[:data][:attributes][:duration]).to eq(strategy_params[:duration])
       end
 
       it 'assign stratey to user' do
@@ -107,14 +109,14 @@ RSpec.describe 'Strategy API' do
   end
 
   describe 'PUT /strategies/:id' do
-    let!(:strategy) { create(:strategy, user_id: user.id) }
+    let!(:strategy) { create(:strategy, duration: 20, user_id: user.id) }
 
     before do
       put "/strategies/#{strategy.id}", params: { strategy: strategy_params }.to_json, headers:
     end
 
     context 'when params are valid' do
-      let(:strategy_params) { { name: 'New strategy name' } }
+      let(:strategy_params) { { name: 'New strategy name', duration: 180 } }
 
       it 'return status code 200' do
         expect(response).to have_http_status(:ok)
@@ -126,6 +128,7 @@ RSpec.describe 'Strategy API' do
 
       it 'return updated strategy data' do
         expect(json_body[:data][:attributes][:name]).to eq(strategy_params[:name])
+        expect(json_body[:data][:attributes][:duration]).to eq(strategy_params[:duration])
       end
     end
 

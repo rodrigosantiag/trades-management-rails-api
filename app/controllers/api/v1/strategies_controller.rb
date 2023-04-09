@@ -51,7 +51,7 @@ module Api
       private
 
       def strategy_params
-        params.require(:strategy).permit(:name)
+        params.require(:strategy).permit(:name, :duration)
       end
     end
   end
