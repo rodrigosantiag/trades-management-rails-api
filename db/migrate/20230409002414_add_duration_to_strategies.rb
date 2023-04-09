@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class AddDurationToStrategies < ActiveRecord::Migration[7.0]
   def up
     add_column :strategies, :duration, :integer
