@@ -17,13 +17,6 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
 
-      - name: Install Heroku CLI
-        run: |
-          echo "deb https://cli-assets.heroku.com/branches/stable/apt ./" > /etc/apt/sources.list.d/heroku.list
-          wget -O- https://cli-assets.heroku.com/apt/release.key | apt-key add -
-          apt-get update
-          apt-get install -y heroku
-
       - name: Install DPL gem
         run: gem install dpl
 
