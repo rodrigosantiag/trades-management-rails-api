@@ -1,0 +1,34 @@
+name: deploy
+run-name: Deploy
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    name: Deploy
+    runs=op: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+
+      - name: Install Heroku CLI
+        run: |
+          echo "deb https://cli-assets.heroku.com/branches/stable/apt ./" > /etc/apt/sources.list.d/heroku.list
+          wget -O- https://cli-assets.heroku.com/apt/release.key | apt-key add -
+          apt-get update
+          apt-get install -y heroku
+
+      - name: Install DPL gem
+        run: gem install dpl
+
+      - name: Deploy
+        run: dpl --provider=heroku --app=${{ secrets.APP_NAME }} --api-key=${{ secrets.API_KEY }}
+
+      - name: Run migrations
+        run: heroku run rails db:migrate --exit-code --app ${{ secrets.APP_NAME }}
