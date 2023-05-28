@@ -8,6 +8,7 @@ services:
       - db:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: password
+
   mailcatcher:
     container_name: mailcatcher
     restart: on-failure:10
@@ -17,6 +18,26 @@ services:
     ports:
       - "1080:1080"
       - "1025:1025"
+
+  redis:
+    image: "redis:alpine"
+    command: redis-server
+    ports:
+      - "6378:6379"
+    volumes:
+      - "redis:/data"
+
+  sidekiq:
+    build: .
+    env_file: .env
+    command: bash -c "bundle exec sidekiq"
+    volumes:
+      - .:/app
+    depends_on:
+      - database
+      - redis
+      - api
+
   api:
     build: .
     env_file: .env
@@ -27,8 +48,10 @@ services:
       - "3000:3000"
     depends_on:
       - database
+      - redis
     links:
       - mailcatcher
 
 volumes:
   db:
+  redis:

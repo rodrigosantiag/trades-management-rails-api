@@ -51,6 +51,9 @@ group :development, :test do
 
   # Faker
   gem 'faker'
+
+  # Sidekiq
+  gem 'sidekiq'
 end
 
 group :development do
@@ -68,7 +71,7 @@ end
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 # Devise
-gem 'devise', '~> 4.7', '>= 4.7.1'
+gem 'devise', '~> 4.9'
 
 # Devise Token Auth
 gem 'devise_token_auth'
