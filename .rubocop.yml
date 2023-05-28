@@ -52,3 +52,5 @@ RSpec/MultipleMemoizedHelpers:
   Enabled: false
 RSpec/MultipleExpectations:
   Enabled: false
+RSpec/IndexedLet:
+  Enabled: false
