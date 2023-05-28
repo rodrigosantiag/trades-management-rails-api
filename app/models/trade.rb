@@ -13,6 +13,10 @@ class Trade < ApplicationRecord
   after_validation :set_result_balance, on: %i[create update]
   after_commit :update_account_balance, on: %i[create update destroy]
 
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[account_id created_at id profit result result_balance strategy_id type_trade updated_at user_id value]
+  end
+
   def set_result_balance
     return unless errors.empty?
 

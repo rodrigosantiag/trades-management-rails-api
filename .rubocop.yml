@@ -1,5 +1,6 @@
 require: ['rubocop-rails', 'rubocop-rspec']
 AllCops:
+  SuggestExtensions: false
   TargetRubyVersion: 3.1.2
   NewCops: enable
 Gemspec/RequireMFA: # new in 1.23
@@ -43,9 +44,13 @@ Rails/FilePath:
   Enabled: true
   Exclude:
     - 'spec/rails_helper.rb'
+Rails/ThreeStateBooleanColumn:
+  Enabled: false
 
 # Rubocop RSpec
 RSpec/MultipleMemoizedHelpers:
   Enabled: false
 RSpec/MultipleExpectations:
+  Enabled: false
+RSpec/IndexedLet:
   Enabled: false
