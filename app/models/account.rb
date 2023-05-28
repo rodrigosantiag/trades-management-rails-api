@@ -9,4 +9,8 @@ class Account < ApplicationRecord
   belongs_to :user
 
   has_many :trades, dependent: :destroy
+
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[broker_id created_at currency current_balance id initial_balance type_account updated_at user_id]
+  end
 end
