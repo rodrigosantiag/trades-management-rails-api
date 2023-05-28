@@ -51,9 +51,6 @@ group :development, :test do
 
   # Faker
   gem 'faker'
-
-  # Sidekiq
-  gem 'sidekiq'
 end
 
 group :development do
@@ -98,6 +95,9 @@ gem 'bootsnap', '~> 1.16'
 
 # Webpacker
 gem 'webpacker'
+
+# Sidekiq
+gem 'sidekiq'
 
 group :production do
   gem 'sendgrid-ruby'
