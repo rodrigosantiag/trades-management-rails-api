@@ -51,6 +51,9 @@ group :development, :test do
 
   # Faker
   gem 'faker'
+
+  # Sidekiq
+  gem 'sidekiq'
 end
 
 group :development do

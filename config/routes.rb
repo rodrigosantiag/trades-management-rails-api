@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'api_version_constraint'
+require 'sidekiq/web'
 
 Rails.application.routes.draw do
   devise_for :users, controllers: { confirmations: 'confirmations', passwords: 'passwords' }
@@ -23,4 +24,6 @@ Rails.application.routes.draw do
       resources :users, only: %i[show update]
     end
   end
+
+  mount Sidekiq::Web => '/sidekiq'
 end
