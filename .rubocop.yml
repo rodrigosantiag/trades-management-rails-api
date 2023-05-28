@@ -1,5 +1,6 @@
 require: ['rubocop-rails', 'rubocop-rspec']
 AllCops:
+  SuggestExtensions: false
   TargetRubyVersion: 3.1.2
   NewCops: enable
 Gemspec/RequireMFA: # new in 1.23
