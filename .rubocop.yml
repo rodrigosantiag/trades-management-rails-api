@@ -43,6 +43,8 @@ Rails/FilePath:
   Enabled: true
   Exclude:
     - 'spec/rails_helper.rb'
+Rails/ThreeStateBooleanColumn:
+  Enabled: false
 
 # Rubocop RSpec
 RSpec/MultipleMemoizedHelpers:
