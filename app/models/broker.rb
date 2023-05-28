@@ -6,4 +6,8 @@ class Broker < ApplicationRecord
 
   has_many :accounts, dependent: :destroy
   belongs_to :user
+
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[created_at id name updated_at user_id]
+  end
 end
