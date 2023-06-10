@@ -38,7 +38,7 @@ group :test do
   gem 'simplecov-shields-badge', require: false
 end
 
-gem 'rspec-rails', '~> 6.0.0', group: %i[development test production]
+gem 'rspec-rails', '~> 6.0.3', group: %i[development test production]
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
