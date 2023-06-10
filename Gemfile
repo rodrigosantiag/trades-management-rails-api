@@ -9,7 +9,7 @@ git_source(:github) do |repo_name|
 end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 7.0.4'
+gem 'rails', '~> 7.0.5'
 # Use pg as the database for Active Record (Development and Production)
 gem 'pg', '>= 0.18', '< 2.0', group: %i[development production]
 
@@ -17,7 +17,7 @@ gem 'pg', '>= 0.18', '< 2.0', group: %i[development production]
 gem 'sqlite3', group: :test
 
 # Use Puma as the app server
-gem 'puma', '~> 6.2'
+gem 'puma', '~> 6.3'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
@@ -38,7 +38,7 @@ group :test do
   gem 'simplecov-shields-badge', require: false
 end
 
-gem 'rspec-rails', '~> 6.0.0', group: %i[development test production]
+gem 'rspec-rails', '~> 6.0.3', group: %i[development test production]
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
