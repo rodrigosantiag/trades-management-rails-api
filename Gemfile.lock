@@ -180,7 +180,7 @@ GEM
       ast (~> 2.4.1)
       racc
     pg (1.5.4)
-    puma (6.3.1)
+    puma (6.4.0)
       nio4r (~> 2.0)
     racc (1.7.1)
     rack (2.2.8)
@@ -349,7 +349,7 @@ DEPENDENCIES
   omniauth
   overcommit
   pg (>= 0.18, < 2.0)
-  puma (~> 6.3)
+  puma (~> 6.4)
   rack-cors
   rails (~> 7.0.7)
   rails-controller-testing
